@@ -16,9 +16,8 @@ public class UserService
      * @param email The email of the requested user
      * @return      The user with email or null if non-existent
      */
-    public User getUser(String email)
-    {
-        return null;
+   public User getUser(String email) {
+        return userRepository.findByEmail(email).orElse(null);
     }
 
     /**
@@ -28,6 +27,14 @@ public class UserService
      */
     public boolean addUser(User user)
     {
+        for (User user : UserRepository) {
+            if (user.getEmail().equals(email)) {
+                return false;
+            }
+            else{
+                userRepository.add(user);
+                return true;
+            }
         return false;
     }
 
@@ -37,9 +44,9 @@ public class UserService
      * @param password The password entered
      * @return         Whether the credentials entered were correct or not
      */
-    public boolean isAuthorised(String email, String password)
-    {
-        return false;
+     public boolean isAuthorized(String email, String password) {
+        User user = userRepository.findByEmail(email).orElse(null);
+        return user != null && BCrypt.checkpw(password, user.getPassword());
     }
 
     public boolean emailInUse(String email)
