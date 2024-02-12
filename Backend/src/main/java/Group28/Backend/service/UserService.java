@@ -11,43 +11,45 @@ public class UserService
     @Autowired
     UserRepository userRepository;
 
-    /**
-     *
-     * @param email The email of the requested user
-     * @return      The user with email or null if non-existent
-     */
-   public User getUser(String email) {
-        return userRepository.findByEmail(email).orElse(null);
-    }
+   
+ * @param email The email of the user to retrieve
+ * @return The user object if found, or null if not found
+ */
+public User findUserByEmail(String email) {
+    return userRepository.findByEmail(email).orElse(null);
+}
+
 
     /**
      *
-     * @param user The user object to add to the repository
-     * @return     True if successful, false if not (if already exists fail)
-     */
-    public boolean addUser(User user)
-    {
-        for (User user : UserRepository) {
-            if (user.getEmail().equals(email)) {
-                return false;
-            }
-            else{
-                userRepository.add(user);
-                return true;
-            }
+   
+ * @param user The user object to add to the repository
+ * @return True if the user was added successfully (does not already exist), false otherwise
+ */
+public boolean addUserIfNotExists(User user) {
+    Optional<User> existingUser = userRepository.findByEmail(user.getEmail());
+
+    if (existingUser.isPresent()) {
+        // User with the given email already exists
         return false;
+    } else {
+        // User does not exist, add to the repository
+        userRepository.save(user);
+        return true;
     }
+}
 
-    /**
-     *
-     * @param email    The email of the user
-     * @param password The password entered
-     * @return         Whether the credentials entered were correct or not
-     */
-     public boolean isAuthorized(String email, String password) {
-        User user = userRepository.findByEmail(email).orElse(null);
-        return user != null && BCrypt.checkpw(password, user.getPassword());
-    }
+
+ * Checks if a user with the given email and password exists and is authorized.
+ *
+ * @param email    The email of the user
+ * @param password The password to check
+ * @return True if the user is authorized, false otherwise
+ */
+public boolean isUserAuthorized(String email, String password) {
+    User user = userRepository.findByEmail(email).orElse(null);
+    return user != null && BCrypt.checkpw(password, user.getPassword());
+}
 
     public boolean emailInUse(String email)
     {
