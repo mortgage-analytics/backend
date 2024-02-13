@@ -1,5 +1,7 @@
 package Group28.Backend;
 
+import Group28.Backend.Security.AuthEntryPointJwt;
+import Group28.Backend.Security.JwtAuthFilter;
 import Group28.Backend.controller.DataController;
 import Group28.Backend.controller.LoginController;
 import Group28.Backend.domain.User;
@@ -12,9 +14,7 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 
-@EnableGlobalMethodSecurity(prePostEnabled = true)
 @SpringBootApplication
 public class BackendApplication implements ApplicationRunner
 {
@@ -36,6 +36,13 @@ public class BackendApplication implements ApplicationRunner
 
 	@Autowired
 	DataRepository dataRepository;
+
+
+	@Autowired
+	JwtAuthFilter jwtAuthFilter;
+
+	@Autowired
+	AuthEntryPointJwt authEntryPointJwt;
 
 	public static void main(String[] args)
 	{
