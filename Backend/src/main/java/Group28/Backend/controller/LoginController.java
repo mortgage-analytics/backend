@@ -4,6 +4,9 @@ import Group28.Backend.Payload.SigninRequest;
 import Group28.Backend.Payload.SignupRequest;
 import Group28.Backend.domain.User;
 import Group28.Backend.service.UserService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -83,9 +86,10 @@ public class LoginController
     }
 
     @PostMapping("/signout")
-    public ResponseEntity<String> signout()
+    public ResponseEntity<String> signout(HttpServletRequest request, HttpServletResponse response)
     {
 
-        return null;
+
+        return ResponseEntity.ok().body("Signout successful");
     }
 }
