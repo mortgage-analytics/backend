@@ -4,14 +4,16 @@ import Group28.Backend.Payload.SigninRequest;
 import Group28.Backend.Payload.SignupRequest;
 import Group28.Backend.domain.User;
 import Group28.Backend.service.UserService;
+import jakarta.servlet.http.Cookie;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 public class LoginController
 {
   @Autowired
@@ -29,7 +31,10 @@ public class LoginController
 
     if (isAuthorized)
     {
-      return ResponseEntity.ok().build();  // returning a status ok for the ResponseEntity object
+      Cookie cookie = new Cookie("user_info", email + ":" + "ROLE_USER");
+      HttpHeaders headers = new HttpHeaders();
+      headers.add(HttpHeaders.SET_COOKIE, cookie.toString());
+      return new ResponseEntity<>("Cookie set successfully!", headers, HttpStatus.OK);
     } else
     {
       return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
