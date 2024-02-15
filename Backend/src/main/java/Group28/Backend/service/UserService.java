@@ -17,57 +17,14 @@ public class UserService implements UserDetailsService
   @Autowired
   UserRepository userRepository;
 
-<<<<<<< HEAD
-    /**
-     *
-     * @param email The email of the requested user
-     * @return      The user with email or null if non-existent
-     */
-   public User getUser(String email) {
-        return userRepository.findByEmail(email).orElse(null);
-    }
-
-    /**
-     *
-     * @param user The user object to add to the repository
-     * @return     True if successful, false if not (if already exists fail)
-     */
-    public boolean addUser(User user)
-    {
-        for (User user : UserRepository) {
-            if (user.getEmail().equals(email)) {
-                return false;
-            }
-            else{
-                userRepository.add(user);
-                return true;
-            }
-        return false;
-    }
-
-    /**
-     *
-     * @param email    The email of the user
-     * @param password The password entered
-     * @return         Whether the credentials entered were correct or not
-     */
-     public boolean isAuthorized(String email, String password) {
-        User user = userRepository.findByEmail(email).orElse(null);
-        return user != null && BCrypt.checkpw(password, user.getPassword());
-    }
-
-    public boolean emailInUse(String email)
-=======
   /**
-   * * @param email The email of the user to retrieve
-   *
+   * @param email The email of the user to retrieve
    * @return The user object if found, or null if not found
    */
   public User getUser(String email)
   {
     return userRepository.findById(email).orElse(null);
   }
-
 
   /**
    * @param user The user object to add to the repository
@@ -78,7 +35,6 @@ public class UserService implements UserDetailsService
     Optional<User> existingUser = userRepository.findById(user.getEmail());
 
     if (existingUser.isPresent())
->>>>>>> refs/remotes/origin/backend-dev
     {
       // User with the given email already exists
       return false;
@@ -113,7 +69,7 @@ public class UserService implements UserDetailsService
   {
     User user = userRepository.findById(username).orElse(null);
 
-    if(user == null)
+    if (user == null)
     {
       return null; // TODO maybe return something else or throw exception?
     }
