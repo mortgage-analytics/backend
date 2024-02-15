@@ -52,12 +52,7 @@ public class BackendApplication implements ApplicationRunner
 	@Override
 	public void run(ApplicationArguments args) throws Exception
 	{
-		// Set admin user
-		userService.addUser(new User("byrnel58@tcd.ie", "Test1234_"));
-
-		if(userRepository.existsById("byrnel58@tcd.ie"))
-		{
-			System.out.println("Added");
-		}
+		// Add users
+		userRepository.save(new User("byrnel58@tcd.ie", "Test12345_"));
 	}
 }

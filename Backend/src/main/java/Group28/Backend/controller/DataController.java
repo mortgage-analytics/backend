@@ -4,7 +4,6 @@ import Group28.Backend.domain.DataEntry;
 import Group28.Backend.service.DataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Date;
 import java.util.List;
+
+// TODO make all return ResponseEntities, needed for security
+// TODO require authorization with PreAuthorize annotations
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @Controller
@@ -29,9 +31,9 @@ public class DataController
   }
 
   @GetMapping("/all")
-  public List<DataEntry> getAll()
+  public ResponseEntity<List<DataEntry>> getAll()
   {
-    return dataService.getAll();
+    return ResponseEntity.ok(dataService.getAll());
   }
 
   @GetMapping("/successful")
