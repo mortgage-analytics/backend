@@ -3,27 +3,28 @@ package Group28.Backend.service;
 import Group28.Backend.domain.User;
 import Group28.Backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
-public class UserService
+public class UserService implements UserDetailsService
 {
   @Autowired
   UserRepository userRepository;
 
   /**
-   * * @param email The email of the user to retrieve
-   *
+   * @param email The email of the user to retrieve
    * @return The user object if found, or null if not found
    */
   public User getUser(String email)
   {
     return userRepository.findById(email).orElse(null);
   }
-
 
   /**
    * @param user The user object to add to the repository
@@ -61,5 +62,22 @@ public class UserService
   public boolean emailInUse(String email)
   {
     return false;
+  }
+
+  @Override
+  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException
+  {
+    User user = userRepository.findById(username).orElse(null);
+
+    if (user == null)
+    {
+      return null; // TODO maybe return something else or throw exception?
+    }
+
+    return org.springframework.security.core.userdetails.User.builder()
+            .username(user.getEmail())
+            .password(user.getPassword())
+            .roles("USER")
+            .build();
   }
 }

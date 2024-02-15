@@ -5,16 +5,15 @@ import Group28.Backend.Payload.SignupRequest;
 import Group28.Backend.domain.User;
 import Group28.Backend.service.UserService;
 import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 public class LoginController
 {
   @Autowired
@@ -32,7 +31,10 @@ public class LoginController
 
     if (isAuthorized)
     {
-      return ResponseEntity.ok().build();  // returning a status ok for the ResponseEntity object
+      Cookie cookie = new Cookie("user_info", email + ":" + "ROLE_USER");
+      HttpHeaders headers = new HttpHeaders();
+      headers.add(HttpHeaders.SET_COOKIE, cookie.toString());
+      return new ResponseEntity<>("Cookie set successfully!", headers, HttpStatus.OK);
     } else
     {
       return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -72,6 +74,7 @@ public class LoginController
     // Check conditions of all booleans to see if password is valid
     if (!containsUppercase || !containsDigit || !containsSpecChar) {
         return ResponseEntity.badRequest().body("Password must include a number, capital, and special character");
+
     }
 
     // Create user if email not in use already
@@ -86,6 +89,7 @@ public class LoginController
 
     return ResponseEntity.badRequest().build();
   }
+
 
   @PostMapping("/signout")
   public ResponseEntity<String> signout(HttpServletRequest request, HttpServletResponse response)
