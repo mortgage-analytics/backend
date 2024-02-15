@@ -58,68 +58,23 @@ public class LoginController
     // Check password for at least one uppercase letter
     boolean containsUppercase = !password.equals(password.toLowerCase());
 
-<<<<<<< HEAD
-        boolean containsSpecChar = false;
-        boolean containsDigit = false;
+    // Check password for at least one uppercase letter
+    containsUppercase = !password.equals(password.toLowerCase());
 
-        // Check password for at least one uppercase letter
-        boolean containsUppercase = !password.equals(password.toLowerCase());
+    // Check password for special characters
+    for (char curr : password.toCharArray()) {
 
-        // Check password for special characters
-        for (char curr : password.toCharArray()) {
-
-            if (specialCharacters.contains(String.valueOf(curr))) {
-                containsSpecChar = true;
-            }
-            if(Character.isDigit(curr)){
-                containsDigit = true;
-            }
+        if (specialCharacters.contains(String.valueOf(curr))) {
+            containsSpecChar = true;
         }
+        if(Character.isDigit(curr)){
+            containsDigit = true;
+        }
+    }
 
         // Check conditions of all booleans to see if password is valid
-        if (!containsUppercase || !containsDigit || !containsSpecChar) {
-            return ResponseEntity.badRequest().body("Password must include 8 characters, number, capital, special character");
-        }
-
-        // Create user if email not in use already
-        String email = signupAttempt.getEmail();
-        password = signupAttempt.getPassword();
-        User newUser = new User(email, password);
-
-        // Add user to repository
-        if(userService.addUser(newUser)){
-            return ResponseEntity.ok().build();
-        }
-
-        return ResponseEntity.badRequest().build();
-    }
-
-    @PostMapping("/signout")
-    public ResponseEntity<String> signout(HttpServletRequest request, HttpServletResponse response)
-    {
-
-
-        return ResponseEntity.ok().body("Signout successful");
-=======
-    // Check password for special characters
-    for (char curr : password.toCharArray())
-    {
-
-      if (specialCharacters.contains(String.valueOf(curr)))
-      {
-        containsSpecChar = true;
-      }
-      if (Character.isDigit(curr))
-      {
-        containsDigit = true;
-      }
->>>>>>> refs/remotes/origin/backend-dev
-    }
-
-    // Check conditions of all booleans to see if password is valid
-    if (!containsUppercase || !containsDigit || !containsSpecChar)
-    {
-      return ResponseEntity.badRequest().body("Password must include 8 characters, number, capital, special character");
+    if (!containsUppercase || !containsDigit || !containsSpecChar) {
+        return ResponseEntity.badRequest().body("Password must include 8 characters, number, capital, special character");
     }
 
     // Create user if email not in use already
@@ -128,18 +83,17 @@ public class LoginController
     User newUser = new User(email, password);
 
     // Add user to repository
-    if (userService.addUser(newUser))
-    {
-      return ResponseEntity.ok().build();
+    if(userService.addUser(newUser)){
+        return ResponseEntity.ok().build();
     }
 
     return ResponseEntity.badRequest().build();
   }
 
+
   @PostMapping("/signout")
   public ResponseEntity<String> signout()
   {
-
-    return null;
+      return ResponseEntity.ok().build();
   }
 }
