@@ -5,6 +5,8 @@ import Group28.Backend.Payload.SignupRequest;
 import Group28.Backend.domain.User;
 import Group28.Backend.service.UserService;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
