@@ -11,6 +11,13 @@ public class User
     private String email;
     private String password; // Password is hashed using BCrypt to securely store it. You can use BCrypts methods to check
 
+    // IMPORTANT If this is not here find() for the userRepo seems to call the other constructor, that cannot be
+    // allowed to happen as it will hash an already hashed password
+    public User()
+    {
+
+    }
+
     public User(String email, String password)
     {
         this.email = email;
