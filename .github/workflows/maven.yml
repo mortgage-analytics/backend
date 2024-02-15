@@ -27,4 +27,5 @@ jobs:
           distribution: 'temurin'
           cache: maven
       - name: Test with Maven
+        working-directory: ./Backend
         run: mvn test
