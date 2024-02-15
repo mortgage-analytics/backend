@@ -61,23 +61,19 @@ public class LoginController
     boolean containsUppercase = !password.equals(password.toLowerCase());
 
     // Check password for special characters
-    for (char curr : password.toCharArray())
-    {
+    for (char curr : password.toCharArray()) {
 
-      if (specialCharacters.contains(String.valueOf(curr)))
-      {
-        containsSpecChar = true;
-      }
-      if (Character.isDigit(curr))
-      {
-        containsDigit = true;
-      }
+        if (specialCharacters.contains(String.valueOf(curr))) {
+            containsSpecChar = true;
+        }
+        if(Character.isDigit(curr)){
+            containsDigit = true;
+        }
     }
 
-    // Check conditions of all booleans to see if password is valid
-    if (!containsUppercase || !containsDigit || !containsSpecChar)
-    {
-      return ResponseEntity.badRequest().body("Password must include 8 characters, number, capital, special character");
+        // Check conditions of all booleans to see if password is valid
+    if (!containsUppercase || !containsDigit || !containsSpecChar) {
+        return ResponseEntity.badRequest().body("Password must include 8 characters, number, capital, special character");
     }
 
     // Create user if email not in use already
@@ -86,18 +82,17 @@ public class LoginController
     User newUser = new User(email, password);
 
     // Add user to repository
-    if (userService.addUser(newUser))
-    {
-      return ResponseEntity.ok().build();
+    if(userService.addUser(newUser)){
+        return ResponseEntity.ok().build();
     }
 
     return ResponseEntity.badRequest().build();
   }
 
+
   @PostMapping("/signout")
   public ResponseEntity<String> signout()
   {
-
-    return null;
+      return ResponseEntity.ok().build();
   }
 }
