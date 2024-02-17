@@ -5,6 +5,8 @@ import Group28.Backend.Payload.SignupRequest;
 import Group28.Backend.domain.User;
 import Group28.Backend.service.UserService;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -51,7 +53,7 @@ public class LoginController
     // Check if password is at least 8 characters long
     if (password.length() < 8)
     {
-      return ResponseEntity.badRequest().body("Password must include 8 characters, number, capital, special character");
+      return ResponseEntity.badRequest().body("Password must include 8 characters");
     }
 
     boolean containsSpecChar = false;
@@ -71,9 +73,10 @@ public class LoginController
         }
     }
 
-        // Check conditions of all booleans to see if password is valid
+    // Check conditions of all booleans to see if password is valid
     if (!containsUppercase || !containsDigit || !containsSpecChar) {
-        return ResponseEntity.badRequest().body("Password must include 8 characters, number, capital, special character");
+        return ResponseEntity.badRequest().body("Password must include a number, capital, and special character");
+
     }
 
     // Create user if email not in use already
@@ -91,8 +94,8 @@ public class LoginController
 
 
   @PostMapping("/signout")
-  public ResponseEntity<String> signout()
+  public ResponseEntity<String> signout(HttpServletRequest request, HttpServletResponse response)
   {
-      return ResponseEntity.ok().build();
+      return ResponseEntity.ok().body("Signout successful");
   }
 }
