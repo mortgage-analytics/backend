@@ -37,28 +37,40 @@ public class DataController
   }
 
   @GetMapping("/successful")
-  public List<DataEntry> getSuccessful()
-  {
-    // TODO
-    return null;
+
+    public ResponseEntity<List<DataEntry>> getSuccessful() {
+    List<DataEntry> successfulEntries = dataService.getSuccessful();
+    if (successfulEntries.isEmpty()) {
+      return ResponseEntity.noContent().build();
+    }
+    return ResponseEntity.ok(successfulEntries);
+
   }
 
   @GetMapping("/failed")
-  public List<DataEntry> getFailed()
-  {
-    return null;
+  public ResponseEntity<List<DataEntry>> getFailed() {
+    List<DataEntry> failedEntries = dataService.getFailed();
+    if (failedEntries.isEmpty()) {
+      return ResponseEntity.noContent().build();
+    }
+    return ResponseEntity.ok(failedEntries);
   }
 
   @GetMapping("/ongoing")
-  public List<DataEntry> getOngoing()
-  {
-    return null;
+  public ResponseEntity<List<DataEntry>> getOngoing() {
+    List<DataEntry> ongoingEntries = dataService.getOngoing();
+    if (ongoingEntries.isEmpty()) {
+      return ResponseEntity.noContent().build();
+    }
+    return ResponseEntity.ok(ongoingEntries);
   }
 
   @GetMapping("/after/{date}")
-  public List<DataEntry> getAllAfter(@PathVariable Date date)
-  {
-    // TODO
-    return null;
+  public ResponseEntity<List<DataEntry>> getAllAfter(@PathVariable Date date) {
+    List<DataEntry> entriesAfterDate = dataService.getAfter(date);
+    if (entriesAfterDate.isEmpty()) {
+      return ResponseEntity.noContent().build();
+    }
+    return ResponseEntity.ok(entriesAfterDate);
   }
 }

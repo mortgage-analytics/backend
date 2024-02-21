@@ -16,28 +16,30 @@ public class DataService
 
   public List<DataEntry> getAll()
   {
+
     return dataRepository.findAll();
   }
 
   public List<DataEntry> getSuccessful()
   {
-    // TODO successful will have a completion date, method available
-    return null;
+
+    return dataRepository.findByApplicationStatusAndCompletionDateIsNotNull("successful");
   }
 
   public List<DataEntry> getFailed()
   {
-    return null;
+
+    return dataRepository.findByApplicationStatus("failed");
   }
 
   public List<DataEntry> getOngoing()
   {
-    return null;
+
+    return dataRepository.findByApplicationStatusAndCompletionDateIsNull("ongoing");
   }
 
   public List<DataEntry> getAfter(Date date)
   {
-    // TODO
-    return null;
+    return dataRepository.findByCompletionDateAfter(date);
   }
 }
