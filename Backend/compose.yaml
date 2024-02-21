@@ -1,17 +1,11 @@
 version: '3.8'
 
 services:
-  db:
+  mongodb:
     image: mongo:latest
-    container_name: db
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: password
-      MONGO_INITDB_DATABASE: testdb
+    container_name: mongodb
     ports:
       - "27017:27017"
-    volumes:
-      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
     networks:
       - backend-db
 
@@ -21,9 +15,7 @@ services:
     ports:
       - "8080:8080"
     depends_on:
-      - db
-    environment:
-      MONGO_URI: mongodb://group28:password@db:27017/testdb
+      - mongodb
     networks:
       - backend-db
 
