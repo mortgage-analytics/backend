@@ -1,7 +1,9 @@
 package Group28.Backend.controller;
 
-import Group28.Backend.domain.DataEntry;
-import Group28.Backend.service.DataService;
+import Group28.Backend.domain.Application;
+import Group28.Backend.domain.Lead;
+import Group28.Backend.service.ApplicationService;
+import Group28.Backend.service.LeadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -22,7 +24,10 @@ import java.util.List;
 public class DataController
 {
   @Autowired
-  DataService dataService;
+  ApplicationService applicationService;
+
+  @Autowired
+  LeadService leadService;
 
   @GetMapping("/hi")
   public ResponseEntity<String> hi()
@@ -30,35 +35,41 @@ public class DataController
     return ResponseEntity.ok("Hello");
   }
 
-  @GetMapping("/all")
-  public ResponseEntity<List<DataEntry>> getAll()
+  @GetMapping("/applications/all")
+  public ResponseEntity<List<Application>> getAll()
   {
-    return ResponseEntity.ok(dataService.getAll());
+    return ResponseEntity.ok(applicationService.getAll());
   }
 
-  @GetMapping("/successful")
-  public List<DataEntry> getSuccessful()
+  @GetMapping("/applications/successful")
+  public List<Application> getSuccessful()
   {
     // TODO
     return null;
   }
 
-  @GetMapping("/failed")
-  public List<DataEntry> getFailed()
+  @GetMapping("/applications/failed")
+  public List<Application> getFailed()
   {
     return null;
   }
 
-  @GetMapping("/ongoing")
-  public List<DataEntry> getOngoing()
+  @GetMapping("/applications/ongoing")
+  public List<Application> getOngoing()
   {
     return null;
   }
 
-  @GetMapping("/after/{date}")
-  public List<DataEntry> getAllAfter(@PathVariable Date date)
+  @GetMapping("/applications/after/{date}")
+  public List<Application> getAllAfter(@PathVariable Date date)
   {
     // TODO
     return null;
+  }
+
+  @GetMapping("/leads/all")
+  public ResponseEntity<List<Lead>> getAllLeads()
+  {
+    return ResponseEntity.ok(leadService.getAll());
   }
 }

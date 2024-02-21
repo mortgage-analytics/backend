@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.Date;
 
 @Document
-public class DataEntry
+public class Application
 {
     @Id
     private String id;
@@ -15,7 +15,8 @@ public class DataEntry
     private String applicationType;
     private String applicationStage;
     private boolean propertyIdentified;
-    private int mortgageAmountProposed;
+    private double mortgageAmountProposed;
+    private Date lastUpdatedDate;
     private Date leadCreatedDate;
     private Date applicationCreatedDate;
     private Date advisorReviewCompleteDate;
@@ -33,6 +34,16 @@ public class DataEntry
     private String nextActionDetails;
     private boolean single; // true for single, false for joint
     private String nextAction;
+
+    public Date getLastUpdatedDate()
+    {
+        return lastUpdatedDate;
+    }
+
+    public void setLastUpdatedDate(Date lastUpdatedDate)
+    {
+        this.lastUpdatedDate = lastUpdatedDate;
+    }
 
     public Date getPrimaryLastLoggedOn()
     {
@@ -74,12 +85,12 @@ public class DataEntry
         this.propertyIdentified = propertyIdentified;
     }
 
-    public int getMortgageAmountProposed()
+    public double getMortgageAmountProposed()
     {
         return mortgageAmountProposed;
     }
 
-    public void setMortgageAmountProposed(int mortgageAmountProposed)
+    public void setMortgageAmountProposed(double mortgageAmountProposed)
     {
         this.mortgageAmountProposed = mortgageAmountProposed;
     }
