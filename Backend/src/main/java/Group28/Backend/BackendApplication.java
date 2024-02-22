@@ -67,7 +67,10 @@ public class BackendApplication implements ApplicationRunner
 		// Add users
 		userRepository.save(new User("byrnel58@tcd.ie", "Test12345_"));
 
-		FileInputStream fileInputStream = new FileInputStream("Backend/src/main/resources/combined_report-1707267132094.xlsx");
+		String userDirectory = System.getProperty("user.dir");
+		String workingDirectory = userDirectory.endsWith("Backend") ? "." : "Backend";
+
+		FileInputStream fileInputStream = new FileInputStream(workingDirectory + "/src/main/resources/combined_report-1707267132094.xlsx");
 		Workbook workbook = WorkbookFactory.create(fileInputStream);
 
 		loadApplications(workbook, applicationRepository);
