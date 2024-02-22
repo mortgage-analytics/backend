@@ -10,6 +10,8 @@ import java.util.List;
 @Repository
 public interface DataRepository extends MongoRepository<DataEntry, String>
 {
-  List<DataEntry> findByCompletionDateExists();
-  List<DataEntry> findByApplicationCreatedDateAfter(Date date);
+  List<DataEntry> findByApplicationStatusAndCompletionDateIsNotNull(String applicationStatus);
+  List<DataEntry> findByApplicationStatus(String applicationStatus);
+  List<DataEntry> findByApplicationStatusAndCompletionDateIsNull(String applicationStatus);
+  List<DataEntry> findByCompletionDateAfter(Date date);
 }
