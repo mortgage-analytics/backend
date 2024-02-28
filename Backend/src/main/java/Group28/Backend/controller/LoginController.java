@@ -11,6 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +25,6 @@ public class LoginController
   UserService userService;
 
   // The ? means you can return anything inside the response object, any class
-
   @PostMapping("/signin")
   public ResponseEntity<?> signin(@RequestBody SigninRequest signinRequest)
   {
@@ -42,7 +44,6 @@ public class LoginController
       return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
   }
-
   @PostMapping("/signup")
   public ResponseEntity<?> signup(@RequestBody SignupRequest signupAttempt)
   {
@@ -93,9 +94,20 @@ public class LoginController
   }
 
 
+  @PreAuthorize("isAuthenticated()")
   @PostMapping("/signout")
-  public ResponseEntity<String> signout(HttpServletRequest request, HttpServletResponse response)
+  public ResponseEntity<java.lang.Object> signout(HttpServletRequest request, HttpServletResponse response)
   {
-      return ResponseEntity.ok().body("Signout successful");
+    // Invalidate user's session
+    SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
+    logoutHandler.logout(request, response, SecurityContextHolder.getContext().getAuthentication());
+
+    // Clear the authentication cookie
+    Cookie cookie = new Cookie("user_info", null);
+    cookie.setMaxAge(0); // Set the cookie's max age to 0, effectively deleting it
+    cookie.setPath("/"); // Set the cookie path to ensure it's cleared across the entire application
+    response.addCookie(cookie);
+
+    return ResponseEntity.ok().body("Signout successful");
   }
 }
