@@ -27,11 +27,11 @@ jobs:
         password: ${{ secrets.AzureAppService_ContainerPassword_0da7897ce92645adbb50a0afad882500 }}
 
     - name: Build and push container image to registry
-      uses: docker/build-push-action@v3
+      uses: docker/build-push-action@v5
       with:
         context: ./Backend
         push: true
-        tags: index.docker.io/${{ secrets.AzureAppService_ContainerUsername_c8abad97f88a4330ab57631adbf2cb18 }}/eriklarkin/sweng28-backend:${{ github.sha }}
+        tags: eriklarkin/sweng28-backend:latest
 
   deploy:
     runs-on: ubuntu-latest
@@ -46,6 +46,5 @@ jobs:
       uses: azure/webapps-deploy@v2
       with:
         app-name: 'mortgagebackend'
-        slot-name: 'dev'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_6325d8aa4d7a4c5ba6253a522ada7109 }}
-        images: 'index.docker.io/${{ secrets.AzureAppService_ContainerUsername_c8abad97f88a4330ab57631adbf2cb18 }}/eriklarkin/sweng28-backend:${{ github.sha }}'
+        images: 'index.docker.io/eriklarkin/sweng28-backend:latest'
