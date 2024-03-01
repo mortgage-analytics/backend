@@ -10,5 +10,4 @@ RUN mvn -Dmaven.test.skip package
 FROM openjdk:17-jdk-alpine
 EXPOSE 8080
 COPY --from=build /usr/app/target/Backend-0.0.1-SNAPSHOT.jar /app/runner.jar
-COPY ./src/main/resources/combined_report-1707267132094.xlsx /Backend/src/main/resources/combined_report-1707267132094.xlsx
 ENTRYPOINT java -jar /app/runner.jar

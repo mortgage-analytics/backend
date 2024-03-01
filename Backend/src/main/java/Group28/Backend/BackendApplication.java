@@ -65,16 +65,16 @@ public class BackendApplication implements ApplicationRunner
 	public void run(ApplicationArguments args) throws Exception
 	{
 		// Add users
-		userRepository.save(new User("byrnel58@tcd.ie", "Test12345_"));
-
-		String userDirectory = System.getProperty("user.dir");
-		String workingDirectory = userDirectory.endsWith("Backend") ? "." : "Backend";
-
-		FileInputStream fileInputStream = new FileInputStream(workingDirectory + "/src/main/resources/combined_report-1707267132094.xlsx");
-		Workbook workbook = WorkbookFactory.create(fileInputStream);
-
-		loadApplications(workbook, applicationRepository);
-		loadLeads(workbook, leadRepository);
+//		userRepository.save(new User("byrnel58@tcd.ie", "Test12345_"));
+//
+//		String userDirectory = System.getProperty("user.dir");
+//		String workingDirectory = userDirectory.endsWith("Backend") ? "." : "Backend";
+//
+//		FileInputStream fileInputStream = new FileInputStream(workingDirectory + "/src/main/resources/combined_report-1707267132094.xlsx");
+//		Workbook workbook = WorkbookFactory.create(fileInputStream);
+//
+//		loadApplications(workbook, applicationRepository);
+//		loadLeads(workbook, leadRepository);
 	}
 
 	private static void loadApplications(Workbook workbook, ApplicationRepository applicationRepository)
