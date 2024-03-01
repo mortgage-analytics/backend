@@ -31,13 +31,13 @@ jobs:
       with:
         push: true
         tags: index.docker.io/${{ secrets.AzureAppService_ContainerUsername_c8abad97f88a4330ab57631adbf2cb18 }}/eriklarkin/sweng28-backend:${{ github.sha }}
-        file: ./Dockerfile
+        file: ./Backend/Dockerfile
 
   deploy:
     runs-on: ubuntu-latest
     needs: build
     environment:
-      name: 'production'
+      name: 'dev'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
@@ -46,6 +46,6 @@ jobs:
       uses: azure/webapps-deploy@v2
       with:
         app-name: 'mortgagebackend'
-        slot-name: 'production'
+        slot-name: 'dev'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_6325d8aa4d7a4c5ba6253a522ada7109 }}
         images: 'index.docker.io/${{ secrets.AzureAppService_ContainerUsername_c8abad97f88a4330ab57631adbf2cb18 }}/eriklarkin/sweng28-backend:${{ github.sha }}'
