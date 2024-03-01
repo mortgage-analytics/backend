@@ -9,8 +9,9 @@
 name: Java CI with Maven
 
 on:
+  workflow_dispatch:
   pull_request:
-    branches: [ "main", "backend-dev" ]
+    branches: [ "main", "dev" ]
 
 jobs:
   build:
@@ -27,4 +28,4 @@ jobs:
           cache: maven
       - name: Test with Maven
         working-directory: ./Backend
-        run: mvn test
+        run: mvn clean install
