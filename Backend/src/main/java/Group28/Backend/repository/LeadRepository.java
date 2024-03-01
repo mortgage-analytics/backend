@@ -4,7 +4,14 @@ import Group28.Backend.domain.Lead;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
+import java.util.List;
+
 @Repository
 public interface LeadRepository extends MongoRepository<Lead, String>
 {
+    List<Lead> findByApplicationStatusAndCompletionDateIsNotNull(String applicationStatus);
+    List<Lead> findByApplicationStatus(String applicationStatus);
+    List<Lead> findByApplicationStatusAndCompletionDateIsNull(String applicationStatus);
+    List<Lead> findByCompletionDateAfter(Date date);
 }

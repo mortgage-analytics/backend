@@ -21,21 +21,21 @@ public class LeadService
 
     public List<Lead> getSuccessful()
     {
-        return null;
+        return leadRepository.findByApplicationStatus("successful");
     }
 
     public List<Lead> getFailed()
     {
-        return null;
+        return leadRepository.findByApplicationStatus("failed");
     }
 
     public List<Lead> getOngoing()
     {
-        return null;
+        return leadRepository.findByApplicationStatusAndCompletionDateIsNull("ongoing");
     }
 
     public List<Lead> getAfter(Date date)
     {
-        return null;
+        return leadRepository.findByCompletionDateAfter(date);
     }
 }
