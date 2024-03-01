@@ -1,7 +1,9 @@
 package Group28.Backend.controller;
 
-import Group28.Backend.domain.DataEntry;
-import Group28.Backend.service.DataService;
+import Group28.Backend.domain.Application;
+import Group28.Backend.domain.Lead;
+import Group28.Backend.service.ApplicationService;
+import Group28.Backend.service.LeadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -22,7 +24,10 @@ import java.util.List;
 public class DataController
 {
   @Autowired
-  DataService dataService;
+  ApplicationService applicationService;
+
+  @Autowired
+  LeadService leadService;
 
   @GetMapping("/hi")
   public ResponseEntity<String> hi()
@@ -30,35 +35,54 @@ public class DataController
     return ResponseEntity.ok("Hello");
   }
 
-  @GetMapping("/all")
-  public ResponseEntity<List<DataEntry>> getAll()
+  @GetMapping("/applications/all")
+  public ResponseEntity<List<Application>> getAll()
   {
-    return ResponseEntity.ok(dataService.getAll());
+    return ResponseEntity.ok(applicationService.getAll());
   }
 
-  @GetMapping("/successful")
-  public List<DataEntry> getSuccessful()
-  {
-    // TODO
-    return null;
+  
+  @GetMapping("/applications/successful")
+
+    public ResponseEntity<List<Application>> getSuccessful() {
+    List<Application> successfulEntries = applicationService.getSuccessful();
+    if (successfulEntries.isEmpty()) {
+      return ResponseEntity.noContent().build();
+    }
+    return ResponseEntity.ok(successfulEntries);
+
   }
 
-  @GetMapping("/failed")
-  public List<DataEntry> getFailed()
-  {
-    return null;
+  @GetMapping("/applications/failed")
+  public ResponseEntity<List<Application>> getFailed() {
+    List<Application> failedEntries = applicationService.getFailed();
+    if (failedEntries.isEmpty()) {
+      return ResponseEntity.noContent().build();
+    }
+    return ResponseEntity.ok(failedEntries);
   }
 
-  @GetMapping("/ongoing")
-  public List<DataEntry> getOngoing()
-  {
-    return null;
+  @GetMapping("/applications/ongoing")
+  public ResponseEntity<List<Application>> getOngoing() {
+    List<Application> ongoingEntries = applicationService.getOngoing();
+    if (ongoingEntries.isEmpty()) {
+      return ResponseEntity.noContent().build();
+    }
+    return ResponseEntity.ok(ongoingEntries);
   }
 
-  @GetMapping("/after/{date}")
-  public List<DataEntry> getAllAfter(@PathVariable Date date)
+  @GetMapping("/applications/after/{date}")
+  public ResponseEntity<List<Application>> getAllAfter(@PathVariable Date date) {
+    List<Application> entriesAfterDate = applicationService.getAfter(date);
+    if (entriesAfterDate.isEmpty()) {
+      return ResponseEntity.noContent().build();
+    }
+    return ResponseEntity.ok(entriesAfterDate);
+  }
+
+  @GetMapping("/leads/all")
+  public ResponseEntity<List<Lead>> getAllLeads()
   {
-    // TODO
-    return null;
+    return ResponseEntity.ok(leadService.getAll());
   }
 }
