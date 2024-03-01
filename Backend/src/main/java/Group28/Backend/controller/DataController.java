@@ -41,30 +41,43 @@ public class DataController
     return ResponseEntity.ok(applicationService.getAll());
   }
 
+  
   @GetMapping("/applications/successful")
-  public List<Application> getSuccessful()
-  {
-    // TODO
-    return null;
+
+    public ResponseEntity<List<Application>> getSuccessful() {
+    List<Application> successfulEntries = applicationService.getSuccessful();
+    if (successfulEntries.isEmpty()) {
+      return ResponseEntity.noContent().build();
+    }
+    return ResponseEntity.ok(successfulEntries);
+
   }
 
   @GetMapping("/applications/failed")
-  public List<Application> getFailed()
-  {
-    return null;
+  public ResponseEntity<List<Application>> getFailed() {
+    List<Application> failedEntries = applicationService.getFailed();
+    if (failedEntries.isEmpty()) {
+      return ResponseEntity.noContent().build();
+    }
+    return ResponseEntity.ok(failedEntries);
   }
 
   @GetMapping("/applications/ongoing")
-  public List<Application> getOngoing()
-  {
-    return null;
+  public ResponseEntity<List<Application>> getOngoing() {
+    List<Application> ongoingEntries = applicationService.getOngoing();
+    if (ongoingEntries.isEmpty()) {
+      return ResponseEntity.noContent().build();
+    }
+    return ResponseEntity.ok(ongoingEntries);
   }
 
   @GetMapping("/applications/after/{date}")
-  public List<Application> getAllAfter(@PathVariable Date date)
-  {
-    // TODO
-    return null;
+  public ResponseEntity<List<Application>> getAllAfter(@PathVariable Date date) {
+    List<Application> entriesAfterDate = applicationService.getAfter(date);
+    if (entriesAfterDate.isEmpty()) {
+      return ResponseEntity.noContent().build();
+    }
+    return ResponseEntity.ok(entriesAfterDate);
   }
 
   @GetMapping("/leads/all")

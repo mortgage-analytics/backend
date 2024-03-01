@@ -10,6 +10,8 @@ import java.util.List;
 @Repository
 public interface ApplicationRepository extends MongoRepository<Application, String>
 {
-  List<Application> findByCompletionDateExists();
-  List<Application> findByApplicationCreatedDateAfter(Date date);
+  List<Application> findByApplicationStatusAndCompletionDateIsNotNull(String status);
+  List<Application> findByApplicationStatusAndCompletionDateIsNull(String status);
+  List<Application> findByApplicationStatus(String status);
+  List<Application> findByCompletionDateAfter(Date date);
 }

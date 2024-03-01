@@ -21,23 +21,21 @@ public class ApplicationService
 
   public List<Application> getSuccessful()
   {
-    // TODO successful will have a completion date, method available
-    return null;
+    return applicationRepository.findByApplicationStatusAndCompletionDateIsNotNull("successful");
   }
 
   public List<Application> getFailed()
   {
-    return null;
+    return applicationRepository.findByApplicationStatus("failed");
   }
 
   public List<Application> getOngoing()
   {
-    return null;
+    return applicationRepository.findByApplicationStatusAndCompletionDateIsNull("ongoing");
   }
 
   public List<Application> getAfter(Date date)
   {
-    // TODO
-    return null;
+    return applicationRepository.findByCompletionDateAfter(date);
   }
 }
