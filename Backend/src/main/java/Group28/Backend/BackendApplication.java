@@ -65,7 +65,7 @@ public class BackendApplication implements ApplicationRunner
 	public void run(ApplicationArguments args) throws Exception
 	{
 		// Add users
-//		userRepository.save(new User("byrnel58@tcd.ie", "Test12345_"));
+		userRepository.save(new User("byrnel58@tcd.ie", "Test12345_"));
 //
 //		String userDirectory = System.getProperty("user.dir");
 //		String workingDirectory = userDirectory.endsWith("Backend") ? "." : "Backend";

@@ -8,4 +8,6 @@ public class Timeline
 {
     @Id
     private String id;
+
+    private Client client;
 }

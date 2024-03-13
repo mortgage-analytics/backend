@@ -1,7 +1,9 @@
 package Group28.Backend.controller;
 
+import Group28.Backend.Payload.JwtResponse;
 import Group28.Backend.Payload.SigninRequest;
 import Group28.Backend.Payload.SignupRequest;
+import Group28.Backend.Security.JwtUtil;
 import Group28.Backend.domain.User;
 import Group28.Backend.service.UserService;
 import jakarta.servlet.http.Cookie;
@@ -10,12 +12,16 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.LinkedList;
+import java.util.List;
 
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -28,8 +34,10 @@ public class LoginController
 
   // The ? means you can return anything inside the response object, any class
   @PostMapping("/signin")
-  public ResponseEntity<?> signin(@RequestBody SigninRequest signinRequest)
+  public ResponseEntity<String> signin(@RequestBody SigninRequest signinRequest, HttpServletResponse response)
   {
+    System.out.println("attempt");
+
     // Using get methods to retrieve email and password
     String email = signinRequest.getEmail();
     String password = signinRequest.getPassword();
@@ -37,15 +45,26 @@ public class LoginController
 
     if (isAuthorized)
     {
-      Cookie cookie = new Cookie("user_info", email + ":" + "ROLE_USER");
+      System.out.println("Success");
+
+
+      String jwt = JwtUtil.generateToken(email);
+      Cookie cookie = new Cookie("authToken", jwt);
+
       HttpHeaders headers = new HttpHeaders();
-      headers.add(HttpHeaders.SET_COOKIE, cookie.toString());
+      headers.add(HttpHeaders.SET_COOKIE, cookie.getName() + "=" + cookie.getValue() + "; Path=/; HttpOnly");
       return new ResponseEntity<>("Cookie set successfully!", headers, HttpStatus.OK);
+
+
+//      return ResponseEntity.ok(new JwtResponse(jwt, email, "ROLE_USER"));
+
     } else
     {
       return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
   }
+
+  @PreAuthorize("hasRole('USER')")
   @PostMapping("/signup")
   public ResponseEntity<?> signup(@RequestBody SignupRequest signupAttempt)
   {

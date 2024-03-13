@@ -7,6 +7,7 @@ import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,17 @@ public class JwtAuthFilter extends OncePerRequestFilter {
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
           throws ServletException, IOException {
     try {
-      String jwt = extractJwtFromRequest(request);
+      String jwt = null;
+
+      if(request.getCookies() != null) {
+        for (Cookie cookie : request.getCookies()) {
+          if (cookie.getName() == "authToken") {
+            jwt = cookie.getValue();
+          }
+        }
+      }
+
+//      String jwt = extractJwtFromRequest(request);
 
       if (jwt != null && validateJwtToken(jwt)) {
         String username = extractUsernameFromJwt(jwt);
