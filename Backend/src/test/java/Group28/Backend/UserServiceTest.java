@@ -1,15 +1,16 @@
 package Group28.Backend;
-import Group28.Backend.repository.*;
 import Group28.Backend.domain.*;
 import Group28.Backend.service.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.CrudRepository;
+import Group28.Backend.repository.UserRepository;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.Optional;
+
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -19,8 +20,7 @@ import static org.mockito.Mockito.when;
 public class UserServiceTest {
 
     @Mock
-    public UserRepository userRepository;
-
+    private UserRepository userRepository;
     @InjectMocks
     private UserService userService;
     private User testUser;
@@ -32,12 +32,14 @@ public class UserServiceTest {
 
     @Before
     public void setup(){
+        userService = new UserService();
         testUser = new User("test@something.com", "password");
-        when(userRepository.findByEmail("test@something.com")).thenReturn(testUser);
-
+        userService.addUser(testUser);
+        when(userRepository.findById("test@something.com")).thenReturn(Optional.ofNullable(testUser)); // Mocking findById method
     }
 
     @Test
+
     public void addUserTest(){
         assertEquals(testUser, userService.getUser("test@something.com"));
     }
