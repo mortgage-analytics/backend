@@ -6,35 +6,40 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest
 public class UserServiceTest {
 
     @Mock
-    private UserRepository userRepository;
+    public UserRepository userRepository;
 
     @InjectMocks
     private UserService userService;
     private User testUser;
 
+    // Default constructor
+    public UserServiceTest() {
+    }
+
+
     @Before
     public void setup(){
         testUser = new User("test@something.com", "password");
+        when(userRepository.findByEmail("test@something.com")).thenReturn(testUser);
+
     }
 
     @Test
     public void addUserTest(){
         assertEquals(testUser, userService.getUser("test@something.com"));
-    }
-
-    @Test
-    public void addUserTest(){
-        assertTrue(userService.addUser(testUser));
     }
 
     @Test
@@ -46,5 +51,6 @@ public class UserServiceTest {
     public void emailInUseTest(){
         assertFalse(userService.emailInUse("test@something.com"));
     }
+
 
 }
