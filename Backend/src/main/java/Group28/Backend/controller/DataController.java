@@ -18,7 +18,6 @@ import java.util.List;
 // TODO make all return ResponseEntities, needed for security
 // TODO require authorization with PreAuthorize annotations
 
-@CrossOrigin(origins = "*", maxAge = 3600)
 @Controller
 @RequestMapping("/api/data")
 public class DataController
@@ -41,12 +40,14 @@ public class DataController
     return ResponseEntity.ok(applicationService.getAll());
   }
 
-  
+
   @GetMapping("/applications/successful")
 
-    public ResponseEntity<List<Application>> getSuccessful() {
+  public ResponseEntity<List<Application>> getSuccessful()
+  {
     List<Application> successfulEntries = applicationService.getSuccessful();
-    if (successfulEntries.isEmpty()) {
+    if (successfulEntries.isEmpty())
+    {
       return ResponseEntity.noContent().build();
     }
     return ResponseEntity.ok(successfulEntries);
@@ -54,27 +55,33 @@ public class DataController
   }
 
   @GetMapping("/applications/failed")
-  public ResponseEntity<List<Application>> getFailed() {
+  public ResponseEntity<List<Application>> getFailed()
+  {
     List<Application> failedEntries = applicationService.getFailed();
-    if (failedEntries.isEmpty()) {
+    if (failedEntries.isEmpty())
+    {
       return ResponseEntity.noContent().build();
     }
     return ResponseEntity.ok(failedEntries);
   }
 
   @GetMapping("/applications/ongoing")
-  public ResponseEntity<List<Application>> getOngoing() {
+  public ResponseEntity<List<Application>> getOngoing()
+  {
     List<Application> ongoingEntries = applicationService.getOngoing();
-    if (ongoingEntries.isEmpty()) {
+    if (ongoingEntries.isEmpty())
+    {
       return ResponseEntity.noContent().build();
     }
     return ResponseEntity.ok(ongoingEntries);
   }
 
   @GetMapping("/applications/after/{date}")
-  public ResponseEntity<List<Application>> getAllAfter(@PathVariable Date date) {
+  public ResponseEntity<List<Application>> getAllAfter(@PathVariable Date date)
+  {
     List<Application> entriesAfterDate = applicationService.getAfter(date);
-    if (entriesAfterDate.isEmpty()) {
+    if (entriesAfterDate.isEmpty())
+    {
       return ResponseEntity.noContent().build();
     }
     return ResponseEntity.ok(entriesAfterDate);
