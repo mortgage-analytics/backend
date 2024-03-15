@@ -18,15 +18,12 @@ public class SecurityConfig {
   @Autowired
   private JwtUtil jwtUtil;
 
-  @Autowired
-  private JwtAuthFilter jwtAuthFilter;
-
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http.csrf().disable()
             .authorizeRequests()
             .requestMatchers(HttpMethod.POST, "/api/auth/signin").permitAll()
-            .requestMatchers(HttpMethod.POST, "api/auth/signup").authenticated()
+            .requestMatchers(HttpMethod.POST, "api/auth/signup").permitAll()
             .anyRequest().authenticated()
             .and()
             .addFilterBefore(new JwtRequestFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);

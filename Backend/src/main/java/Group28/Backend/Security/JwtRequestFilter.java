@@ -41,13 +41,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
       System.out.println("no cookies");
     }
 
-//    final String authHeader = request.getHeader("Cookie");
-//
-//    String jwt = null;
-//    if (authHeader != null && authHeader.startsWith("AuthToken=")) {
-//      jwt = authHeader.substring(10);
-//    }
-
     if (jwt != null && jwtUtil.validateToken(jwt, "username")) {
       UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
               new UsernamePasswordAuthenticationToken("username", null, null);
