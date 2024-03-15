@@ -1,4 +1,11 @@
 package Group28.Backend.domain;
 
-public class Timeline {
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document
+public class Timeline
+{
+    @Id
+    private String id;
 }
