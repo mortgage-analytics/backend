@@ -27,8 +27,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     String jwt = null;
     if(request.getCookies() != null)
     {
-      System.out.println("cookies");
-
       for(Cookie cookie : request.getCookies())
       {
         if(cookie.getName().equals("AuthToken"))
@@ -36,12 +34,9 @@ public class JwtRequestFilter extends OncePerRequestFilter {
           jwt = cookie.getValue();
         }
       }
-    } else
-    {
-      System.out.println("no cookies");
     }
 
-    if (jwt != null && jwtUtil.validateToken(jwt, "username")) {
+    if (jwt != null && jwtUtil.validateToken(jwt)) {
       UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
               new UsernamePasswordAuthenticationToken("username", null, null);
       SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);

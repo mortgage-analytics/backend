@@ -10,6 +10,12 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
+
+import java.util.Arrays;
+import java.util.Collections;
 
 @Configuration
 @EnableWebSecurity
@@ -30,93 +36,16 @@ public class SecurityConfig {
 
     return http.build();
   }
+
+  @Bean
+  public CorsFilter corsFilter() {
+    final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    final CorsConfiguration config = new CorsConfiguration();
+    config.setAllowedOrigins(Arrays.asList("http://localhost:3000")); // Provide list of origins if you want multiple origins
+    config.setAllowedHeaders(Arrays.asList("Origin", "Content-Type", "Accept"));
+    config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "OPTIONS", "DELETE", "PATCH"));
+    config.setAllowCredentials(true);
+    source.registerCorsConfiguration("/**", config);
+    return new CorsFilter(source);
+  }
 }
-
-
-
-
-
-
-
-
-
-//import Group28.Backend.service.UserService;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.context.annotation.Bean;
-//import org.springframework.context.annotation.Configuration;
-//import org.springframework.security.authentication.AuthenticationManager;
-//import org.springframework.security.authentication.AuthenticationProvider;
-//import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-//import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-//import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
-//import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-//import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-//import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-//import org.springframework.security.config.http.SessionCreationPolicy;
-//import org.springframework.security.core.userdetails.UserDetailsService;
-//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-//import org.springframework.security.crypto.password.PasswordEncoder;
-//import org.springframework.security.web.SecurityFilterChain;
-//import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-//
-//@Configuration
-//@EnableMethodSecurity
-//public class WebSecurityConfig
-//{
-//  @Autowired
-//  UserService userDetailsService;
-//
-//  @Autowired
-//  AuthEntryPointJwt unauthorizedHandler;
-//
-//  @Bean
-//  public JwtAuthFilter authenticationJwtTokenFilter()
-//  {
-//    return new JwtAuthFilter();
-//  }
-//
-//  @Bean
-//  public DaoAuthenticationProvider authenticationProvider()
-//  {
-//    DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-//
-//    authProvider.setUserDetailsService(userDetailsService);
-//    authProvider.setPasswordEncoder(passwordEncoder());
-//
-//    return authProvider;
-//  }
-//
-//  @Bean
-//  public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception
-//  {
-//    return authConfig.getAuthenticationManager();
-//  }
-//
-//  @Bean
-//  public PasswordEncoder passwordEncoder()
-//  {
-//    return new BCryptPasswordEncoder();
-//  }
-//
-//  @Bean
-//  public SecurityFilterChain filterChain(HttpSecurity http) throws Exception
-//  {
-//    http.csrf(csrf -> csrf.disable())
-//            .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
-//            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-//            .authorizeHttpRequests(auth ->
-//                    auth.requestMatchers("/api/auth/**").permitAll()
-//                            .requestMatchers("/api/data/**").permitAll()
-//                            .anyRequest().authenticated()
-//            );
-//
-//    http.authenticationProvider(authenticationProvider());
-//
-//    http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-//
-//    return http.build();
-//  }
-//}
-//
-//
-//

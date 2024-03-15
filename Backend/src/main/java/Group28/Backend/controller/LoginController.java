@@ -47,7 +47,6 @@ public class LoginController
       cookie.setMaxAge(60*60);
       cookie.setSecure(false);
 
-
       response.addCookie(cookie);
 
       return ResponseEntity.ok("Cookie set successfully!");
@@ -122,7 +121,7 @@ public class LoginController
     logoutHandler.logout(request, response, SecurityContextHolder.getContext().getAuthentication());
 
     // Clear the authentication cookie
-    Cookie cookie = new Cookie("user_info", null);
+    Cookie cookie = new Cookie("AuthToken", null);
     cookie.setMaxAge(0); // Set the cookie's max age to 0, effectively deleting it
     cookie.setPath("/"); // Set the cookie path to ensure it's cleared across the entire application
     response.addCookie(cookie);
