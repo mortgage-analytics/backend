@@ -61,7 +61,6 @@ public class LoginController
     }
   }
 
-  @PreAuthorize("isAuthenticated()")
   @PostMapping("/signup")
   public ResponseEntity<?> signup(@RequestBody SignupRequest signupAttempt)
   {
