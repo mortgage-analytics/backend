@@ -1,21 +1,22 @@
 package Group28.Backend;
 import Group28.Backend.domain.*;
 import Group28.Backend.service.*;
+import Group28.Backend.repository.UserRepository;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.data.repository.CrudRepository;
-import Group28.Backend.repository.UserRepository;
+import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
 import java.util.Optional;
-
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
+@RunWith(MockitoJUnitRunner.class)
 @SpringBootTest
 public class UserServiceTest {
 
@@ -32,27 +33,27 @@ public class UserServiceTest {
 
     @Before
     public void setup(){
-        userService = new UserService();
         testUser = new User("test@something.com", "password");
         userService.addUser(testUser);
-        when(userRepository.findById("test@something.com")).thenReturn(Optional.ofNullable(testUser)); // Mocking findById method
     }
 
     @Test
 
     public void addUserTest(){
+        when(userRepository.findById("test@something.com")).thenReturn(Optional.ofNullable(testUser)); // Mocking findById method
         assertEquals(testUser, userService.getUser("test@something.com"));
     }
 
     @Test
     public void addExistingUserTest(){
+        when(userRepository.findById("test@something.com")).thenReturn(Optional.ofNullable(testUser)); // Mocking findById method
         assertTrue(userService.isAuthorized("test@something.com","password"));
     }
 
     @Test
     public void emailInUseTest(){
+        when(userRepository.findById("test@something.com")).thenReturn(Optional.ofNullable(testUser)); // Mocking findById method
         assertFalse(userService.emailInUse("test@something.com"));
     }
-
 
 }
