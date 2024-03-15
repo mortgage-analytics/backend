@@ -2,21 +2,20 @@ package Group28.Backend;
 import Group28.Backend.domain.*;
 import Group28.Backend.service.*;
 import Group28.Backend.repository.UserRepository;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import java.util.Optional;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(MockitoJUnitRunner.Silent.class)
 @SpringBootTest
 public class UserServiceTest {
 
@@ -38,7 +37,6 @@ public class UserServiceTest {
     }
 
     @Test
-
     public void addUserTest(){
         when(userRepository.findById("test@something.com")).thenReturn(Optional.ofNullable(testUser)); // Mocking findById method
         assertEquals(testUser, userService.getUser("test@something.com"));
