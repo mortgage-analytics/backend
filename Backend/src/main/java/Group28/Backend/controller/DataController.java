@@ -1,9 +1,13 @@
 package Group28.Backend.controller;
 
 import Group28.Backend.domain.Application;
+import Group28.Backend.domain.Client;
 import Group28.Backend.domain.Lead;
+import Group28.Backend.domain.Timeline;
 import Group28.Backend.service.ApplicationService;
+import Group28.Backend.service.ClientService;
 import Group28.Backend.service.LeadService;
+import Group28.Backend.service.TimelineService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -25,9 +29,12 @@ public class DataController
 {
   @Autowired
   ApplicationService applicationService;
-
   @Autowired
   LeadService leadService;
+  @Autowired
+  ClientService clientService;
+  @Autowired
+  TimelineService timelineService;
 
   @GetMapping("/hi")
   public ResponseEntity<String> hi()
@@ -84,5 +91,22 @@ public class DataController
   public ResponseEntity<List<Lead>> getAllLeads()
   {
     return ResponseEntity.ok(leadService.getAll());
+  }
+  @GetMapping("/clients/all")
+  public ResponseEntity<List<Client>> getAllClients() {
+    List<Client> clients = clientService.getAll();
+    if (clients.isEmpty()) {
+      return ResponseEntity.noContent().build();
+    }
+    return ResponseEntity.ok(clients);
+  }
+
+  @GetMapping("/timeline/all")
+  public ResponseEntity<List<Timeline>> getAllTimelines() {
+    List<Timeline> timelines = timelineService.getAll();
+    if (timelines.isEmpty()) {
+      return ResponseEntity.noContent().build();
+    }
+    return ResponseEntity.ok(timelines);
   }
 }
