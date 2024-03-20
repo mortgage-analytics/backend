@@ -38,4 +38,9 @@ public class ApplicationService
   {
     return applicationRepository.findByCompletionDateAfter(date);
   }
+
+  public List<Application> getBetween(Date start, Date end)
+  {
+    return applicationRepository.findAllByApplicationCreatedDateBetween(start, end);
+  }
 }
