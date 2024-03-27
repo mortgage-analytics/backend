@@ -30,6 +30,8 @@ public class SecurityConfig {
             .authorizeRequests()
             .requestMatchers(HttpMethod.POST, "/api/auth/signin").permitAll()
             .requestMatchers(HttpMethod.POST, "api/auth/signup").permitAll()
+            .requestMatchers(HttpMethod.GET, "api/auth/signout").permitAll()
+            .requestMatchers(HttpMethod.GET,  "api/data/graphs/byMonth").permitAll()
             .anyRequest().authenticated()
             .and()
             .addFilterBefore(new JwtRequestFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
