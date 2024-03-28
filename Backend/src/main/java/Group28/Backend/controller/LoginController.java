@@ -9,7 +9,6 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -23,6 +22,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/auth")
 public class LoginController
 {
+  private record jwtResponse(String authToken){}
+
   @Autowired
   UserService userService;
 
@@ -31,7 +32,7 @@ public class LoginController
 
   // The ? means you can return anything inside the response object, any class
   @PostMapping("/signin")
-  public ResponseEntity<?> signin(@RequestBody SigninRequest signinRequest, HttpServletResponse response)
+  public ResponseEntity<?> signin(@RequestBody SigninRequest signinRequest)
   {
     // Using get methods to retrieve email and password
     String email = signinRequest.getEmail();
@@ -41,15 +42,8 @@ public class LoginController
     if (isAuthorized)
     {
       String jwt = jwtUtil.generateToken(email);
-      Cookie cookie = new Cookie("AuthToken", jwt);
-      cookie.setHttpOnly(true);
-      cookie.setPath("/");
-      cookie.setMaxAge(60*60);
-      cookie.setSecure(false);
-
-      response.addCookie(cookie);
-
-      return ResponseEntity.ok("Cookie set successfully!");
+      jwtResponse response = new jwtResponse(jwt);
+      return ResponseEntity.ok(response);
 
 //      Cookie cookie = new Cookie("user_info", email + ":" + "ROLE_USER");
 //      HttpHeaders headers = new HttpHeaders();
