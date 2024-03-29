@@ -85,4 +85,49 @@ public class DataController
   {
     return ResponseEntity.ok(leadService.getAll());
   }
+
+  @GetMapping()
+  public  ResponseEntity<List<Application>> getAllBetweenStartAndEndData(Date start, Date end) {
+    List<Application> betweenStartAndEnd = applicationService.getAllBetweenStartAndEndData(start, end);
+    if (betweenStartAndEnd.isEmpty()) {
+      return ResponseEntity.noContent().build();
+    }
+    return ResponseEntity.ok(betweenStartAndEnd);
+  }
+
+  @GetMapping
+  public  ResponseEntity<List<Application>> getAllByApplicationType(Application appType) {
+    List<Application> byAppType = applicationService.getAllByApplicationType(appType);
+    if (byAppType.isEmpty()) {
+      return ResponseEntity.noContent().build();
+    }
+    return ResponseEntity.ok(byAppType);
+  }
+
+  @GetMapping
+  public ResponseEntity<List<Application>> getAllApplicationsByStatus(String appStatus){
+    List<Application> applicationsStatus = applicationService.getAllApplicationsByStatus(appStatus);
+    if (applicationsStatus.isEmpty()) {
+      return ResponseEntity.noContent().build();
+    }
+    return ResponseEntity.ok(applicationsStatus);
+  }
+
+  @GetMapping
+  public ResponseEntity<List<Application>> getApplicationsIfIsSingleOrJoint(boolean isSingle) {
+    List<Application> singleApp = applicationService.getApplicationsIfIsSingleOrJoint(isSingle);
+    if (singleApp.isEmpty()) {
+      return ResponseEntity.noContent().build();
+    }
+    return ResponseEntity.ok(singleApp);
+  }
+
+  @GetMapping
+  public ResponseEntity<List<Application>> getApplicationsByApplicationStage(String appStage){
+    List<Application> stage = applicationService.getApplicationsByApplicationStage(appStage);
+    if (stage.isEmpty()) {
+      return ResponseEntity.noContent().build();
+    }
+    return ResponseEntity.ok(stage);
+  }
 }

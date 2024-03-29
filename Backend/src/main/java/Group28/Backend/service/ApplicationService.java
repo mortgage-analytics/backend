@@ -38,4 +38,21 @@ public class ApplicationService
   {
     return applicationRepository.findByCompletionDateAfter(date);
   }
+
+  public List<Application> getAllBetweenStartAndEndData(Date startDate, Date endDate){
+    return applicationRepository.getAllBetweenStartAndEndData(startDate, endDate);
+  }
+  public List<Application> getAllByApplicationType(Application appType){
+    return applicationRepository.getAllByApplicationType(appType);
+  }
+  public List<Application> getAllApplicationsByStatus(String appStatus){
+    return applicationRepository.getAllApplicationsByStatus(appStatus);
+  }
+  public List<Application> getApplicationsIfIsSingleOrJoint(boolean isSingle){
+    return applicationRepository.getApplicationsIfIsSingleOrJoint(isSingle);
+  }
+  public List<Application> getApplicationsByApplicationStage(String appStage){
+    return applicationRepository.getApplicationsByApplicationStage(appStage);
+  }
+
 }
