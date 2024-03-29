@@ -55,4 +55,9 @@ public class ApplicationService
     return applicationRepository.getApplicationsByApplicationStage(appStage);
   }
 
+  public List<Application> getApplicationsByAllFilters(Date startDate, Date endDate, Application appType, String appStatus,
+                                                       boolean isSingle, String appStage){
+    return applicationRepository.getApplicationByAllFilters(startDate, endDate, appType, appStatus, isSingle, appStage);
+  }
+
 }

@@ -130,4 +130,14 @@ public class DataController
     }
     return ResponseEntity.ok(stage);
   }
+
+  @GetMapping
+  public ResponseEntity<List<Application>> getApplicationsByAllFilters(Date startDate, Date endDate, Application appType, String appStatus,
+                                                                       boolean isSingle, String appStage){
+    List<Application> filterByAll = applicationService.getApplicationsByAllFilters(startDate, endDate, appType, appStatus, isSingle, appStage);
+    if (filterByAll.isEmpty()) {
+      return ResponseEntity.noContent().build();
+    }
+    return ResponseEntity.ok(filterByAll);
+  }
 }

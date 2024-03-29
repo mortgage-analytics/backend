@@ -22,5 +22,6 @@ public interface ApplicationRepository extends MongoRepository<Application, Stri
   List<Application> getApplicationsIfIsSingleOrJoint(boolean isSingle);
   List<Application> getApplicationsByApplicationStage(String appStage);
 
-
+  List<Application> getApplicationByAllFilters(Date startDate, Date endDate, Application appType, String appStatus,
+                                               boolean isSingle, String appStage);
 }
