@@ -137,4 +137,28 @@ public class DataController
 
     return ResponseEntity.ok(counts);
   }
+
+  @GetMapping("/count/{type}")
+  public ResponseEntity<Integer> getCountPerType(@PathVariable String type)
+  {
+    return ResponseEntity.ok(applicationService.getCountByType(type));
+  }
+
+  @GetMapping("/valueByType/{type}")
+  public ResponseEntity<Double> getValuePerType(@PathVariable String type)
+  {
+    return ResponseEntity.ok(applicationService.getValuePerType(type));
+  }
+
+  @GetMapping("/valueByStatus/{status}")
+  public ResponseEntity<Double> getValuePerStatus(@PathVariable String status)
+  {
+    return ResponseEntity.ok(applicationService.getValuePerStatus(status));
+  }
+
+  @GetMapping("/valueByTypeAndStatus/{type}/{status}")
+  public ResponseEntity<Double> getValuePerTypeAndStatus(@PathVariable String type, @PathVariable String status)
+  {
+    return ResponseEntity.ok(applicationService.getValuePerTypeAndStatus(type, status));
+  }
 }
