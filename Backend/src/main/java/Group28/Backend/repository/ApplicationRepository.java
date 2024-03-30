@@ -16,4 +16,10 @@ public interface ApplicationRepository extends MongoRepository<Application, Stri
   List<Application> findByCompletionDateAfter(Date date);
 
   List<Application> findAllByApplicationCreatedDateBetween(Date start, Date end);
+
+  int countApplicationsByApplicationType(String type);
+
+  List<Application> findByApplicationType(String type);
+
+  List<Application> findByApplicationTypeAndApplicationStatus(String type, String status);
 }
