@@ -1,7 +1,6 @@
 package Group28.Backend;
 
 import Group28.Backend.Security.AuthEntryPointJwt;
-import Group28.Backend.Security.JwtAuthFilter;
 import Group28.Backend.controller.DataController;
 import Group28.Backend.controller.LoginController;
 import Group28.Backend.domain.Application;
@@ -21,7 +20,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import org.apache.poi.ss.usermodel.*;
 
-import java.io.FileInputStream;
 import java.util.Date;
 
 @SpringBootApplication
@@ -51,9 +49,6 @@ public class BackendApplication implements ApplicationRunner
 
 
 	@Autowired
-	JwtAuthFilter jwtAuthFilter;
-
-	@Autowired
 	AuthEntryPointJwt authEntryPointJwt;
 
 	public static void main(String[] args)
@@ -65,7 +60,7 @@ public class BackendApplication implements ApplicationRunner
 	public void run(ApplicationArguments args) throws Exception
 	{
 		// Add users
-//		userRepository.save(new User("byrnel58@tcd.ie", "Test12345_"));
+		userRepository.save(new User("byrnel58@tcd.ie", "Test12345_"));
 //
 //		String userDirectory = System.getProperty("user.dir");
 //		String workingDirectory = userDirectory.endsWith("Backend") ? "." : "Backend";
