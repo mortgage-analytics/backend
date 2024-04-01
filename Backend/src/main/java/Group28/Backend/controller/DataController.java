@@ -86,16 +86,16 @@ public class DataController
     return ResponseEntity.ok(leadService.getAll());
   }
 
-  @GetMapping()
-  public  ResponseEntity<List<Application>> getAllBetweenStartAndEndData(Date start, Date end) {
-    List<Application> betweenStartAndEnd = applicationService.getAllBetweenStartAndEndData(start, end);
+  @GetMapping("/applications/between/date")
+  public  ResponseEntity<List<Application>> findApplicationByApplicationCreatedDateBetween(Date start, Date end) {
+    List<Application> betweenStartAndEnd = applicationService.findApplicationByApplicationCreatedDateBetween(start, end);
     if (betweenStartAndEnd.isEmpty()) {
       return ResponseEntity.noContent().build();
     }
     return ResponseEntity.ok(betweenStartAndEnd);
   }
 
-  @GetMapping
+  @GetMapping("/applications/type")
   public  ResponseEntity<List<Application>> findByApplicationType(String appType) {
     List<Application> byAppType = applicationService.findByApplicationType(appType);
     if (byAppType.isEmpty()) {
@@ -104,7 +104,7 @@ public class DataController
     return ResponseEntity.ok(byAppType);
   }
 
-/*
+  /*
   @GetMapping
   public ResponseEntity<List<Application>> getApplicationsIfIsSingleOrJoint(boolean isSingle) {
     List<Application> singleApp = applicationService.getApplicationsIfIsSingleOrJoint(isSingle);
@@ -113,8 +113,9 @@ public class DataController
     }
     return ResponseEntity.ok(singleApp);
   }
-*/
-  @GetMapping
+  */
+
+  @GetMapping("/applications/stage")
   public ResponseEntity<List<Application>> findByApplicationStage(String appStage){
     List<Application> stage = applicationService.findByApplicationStage(appStage);
     if (stage.isEmpty()) {
@@ -123,15 +124,13 @@ public class DataController
     return ResponseEntity.ok(stage);
   }
 
-  /*
-  @GetMapping
-  public ResponseEntity<List<Application>> getAllApplicationTypeAndApplicationCreatedDateSAndApplicationStatusAndApplicationStageAndIfIsSingleOrJoint(Date startDate, Date endDate, Application appType, String appStatus,
-                                                                       boolean isSingle, String appStage){
-    List<Application> filterByAll = applicationService.getAllApplicationTypeAndApplicationCreatedDateSAndApplicationStatusAndApplicationStageAndIfIsSingleOrJoint(startDate, endDate, appType, appStatus, isSingle, appStage);
+
+  @GetMapping("/applications")
+  public ResponseEntity<List<Application>> findApplicationByApplicationTypeAndApplicationCreatedDateBetweenAndApplicationStageAndApplicationStatus(String applicationType, Date applicationCreatedDate, Application applicationCreatedDate2, String applicationStage, String applicationStatus){
+    List<Application> filterByAll = applicationService.findApplicationByApplicationTypeAndApplicationCreatedDateBetweenAndApplicationStageAndApplicationStatus(applicationType, applicationCreatedDate, applicationCreatedDate2, applicationStage, applicationStatus);
     if (filterByAll.isEmpty()) {
       return ResponseEntity.noContent().build();
     }
     return ResponseEntity.ok(filterByAll);
   }
-  */
 }
