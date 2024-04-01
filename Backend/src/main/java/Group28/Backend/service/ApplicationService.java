@@ -19,8 +19,10 @@ public class ApplicationService
   private
   List<MonthlyCount> counts = new ArrayList<>();
 
-  public ApplicationService()
+  public ApplicationService(ApplicationRepository applicationRepository)
   {
+    this.applicationRepository = applicationRepository;
+
     updateCounts();
   }
 
