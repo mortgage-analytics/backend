@@ -25,15 +25,10 @@ public class JwtRequestFilter extends OncePerRequestFilter {
           throws ServletException, IOException {
 
     String jwt = null;
-    if(request.getCookies() != null)
+    String authHeader = request.getHeader("Authorization");
+    if(authHeader != null && authHeader.startsWith("Bearer "))
     {
-      for(Cookie cookie : request.getCookies())
-      {
-        if(cookie.getName().equals("AuthToken"))
-        {
-          jwt = cookie.getValue();
-        }
-      }
+      jwt = authHeader.substring(7);
     }
 
     if (jwt != null && jwtUtil.validateToken(jwt)) {
