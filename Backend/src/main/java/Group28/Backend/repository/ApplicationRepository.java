@@ -17,11 +17,10 @@ public interface ApplicationRepository extends MongoRepository<Application, Stri
   List<Application> findByApplicationStatus(String status);
   List<Application> findByCompletionDateAfter(Date date);
   List<Application> getAllBetweenStartAndEndData(Date startDate, Date endDate);
-  List<Application> getAllByApplicationType(Application appType);
-  List<Application> getAllApplicationsByApplicationStatus(String appStatus);
-  List<Application> getApplicationsIfIsSingleOrJoint(boolean isSingle);
-  List<Application> getApplicationsByApplicationStage(String appStage);
+  List<Application> findByApplicationType(String type);
+  //List<Application> findByApp(boolean isSingle);
+  List<Application> findByApplicationStage(String appStage);
 
-  List<Application> getAllApplicationTypeAndApplicationCreatedDateSAndApplicationStatusAndApplicationStageAndIfIsSingleOrJoint(Date startDate, Date endDate, Application appType, String appStatus,
-                                               boolean isSingle, String appStage);
+  //List<Application> getAllApplicationTypeAndApplicationCreatedDateSAndApplicationStatusAndApplicationStageAndIfIsSingleOrJoint(Date startDate, Date endDate, Application appType, String appStatus,
+                                               //boolean isSingle, String appStage);
 }

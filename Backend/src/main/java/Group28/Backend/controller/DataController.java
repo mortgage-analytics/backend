@@ -96,23 +96,15 @@ public class DataController
   }
 
   @GetMapping
-  public  ResponseEntity<List<Application>> getAllByApplicationType(Application appType) {
-    List<Application> byAppType = applicationService.getAllByApplicationType(appType);
+  public  ResponseEntity<List<Application>> findByApplicationType(String appType) {
+    List<Application> byAppType = applicationService.findByApplicationType(appType);
     if (byAppType.isEmpty()) {
       return ResponseEntity.noContent().build();
     }
     return ResponseEntity.ok(byAppType);
   }
 
-  @GetMapping
-  public ResponseEntity<List<Application>> getAllApplicationsByApplicationStatus(String appStatus){
-    List<Application> applicationsStatus = applicationService.getAllApplicationsByApplicationStatus(appStatus);
-    if (applicationsStatus.isEmpty()) {
-      return ResponseEntity.noContent().build();
-    }
-    return ResponseEntity.ok(applicationsStatus);
-  }
-
+/*
   @GetMapping
   public ResponseEntity<List<Application>> getApplicationsIfIsSingleOrJoint(boolean isSingle) {
     List<Application> singleApp = applicationService.getApplicationsIfIsSingleOrJoint(isSingle);
@@ -121,16 +113,17 @@ public class DataController
     }
     return ResponseEntity.ok(singleApp);
   }
-
+*/
   @GetMapping
-  public ResponseEntity<List<Application>> getApplicationsByApplicationStage(String appStage){
-    List<Application> stage = applicationService.getApplicationsByApplicationStage(appStage);
+  public ResponseEntity<List<Application>> findByApplicationStage(String appStage){
+    List<Application> stage = applicationService.findByApplicationStage(appStage);
     if (stage.isEmpty()) {
       return ResponseEntity.noContent().build();
     }
     return ResponseEntity.ok(stage);
   }
 
+  /*
   @GetMapping
   public ResponseEntity<List<Application>> getAllApplicationTypeAndApplicationCreatedDateSAndApplicationStatusAndApplicationStageAndIfIsSingleOrJoint(Date startDate, Date endDate, Application appType, String appStatus,
                                                                        boolean isSingle, String appStage){
@@ -140,4 +133,5 @@ public class DataController
     }
     return ResponseEntity.ok(filterByAll);
   }
+  */
 }

@@ -42,22 +42,21 @@ public class ApplicationService
   public List<Application> getAllBetweenStartAndEndData(Date startDate, Date endDate){
     return applicationRepository.getAllBetweenStartAndEndData(startDate, endDate);
   }
-  public List<Application> getAllByApplicationType(Application appType){
-    return applicationRepository.getAllByApplicationType(appType);
-  }
-  public List<Application> getAllApplicationsByApplicationStatus(String appStatus){
-    return applicationRepository.getAllApplicationsByApplicationStatus(appStatus);
-  }
-  public List<Application> getApplicationsIfIsSingleOrJoint(boolean isSingle){
-    return applicationRepository.getApplicationsIfIsSingleOrJoint(isSingle);
-  }
-  public List<Application> getApplicationsByApplicationStage(String appStage){
-    return applicationRepository.getApplicationsByApplicationStage(appStage);
+  public List<Application> findByApplicationType(String type){
+    return applicationRepository.findByApplicationType(type);
   }
 
+  //public List<Application> getApplicationsIfIsSingleOrJoint(boolean isSingle){
+  //  return applicationRepository.getApplicationsIfIsSingleOrJoint(isSingle);
+  //}
+  public List<Application> findByApplicationStage(String appStage){
+    return applicationRepository.findByApplicationStage(appStage);
+  }
+
+  /*
   public List<Application> getAllApplicationTypeAndApplicationCreatedDateSAndApplicationStatusAndApplicationStageAndIfIsSingleOrJoint(Date startDate, Date endDate, Application appType, String appStatus,
                                                        boolean isSingle, String appStage){
     return applicationRepository.getAllApplicationTypeAndApplicationCreatedDateSAndApplicationStatusAndApplicationStageAndIfIsSingleOrJoint(startDate, endDate, appType, appStatus, isSingle, appStage);
   }
-
+  */
 }
