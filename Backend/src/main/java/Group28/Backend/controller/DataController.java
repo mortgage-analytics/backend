@@ -85,4 +85,52 @@ public class DataController
   {
     return ResponseEntity.ok(leadService.getAll());
   }
+
+  @GetMapping("/applications/between/date")
+  public  ResponseEntity<List<Application>> findApplicationByApplicationCreatedDateBetween(Date start, Date end) {
+    List<Application> betweenStartAndEnd = applicationService.findApplicationByApplicationCreatedDateBetween(start, end);
+    if (betweenStartAndEnd.isEmpty()) {
+      return ResponseEntity.noContent().build();
+    }
+    return ResponseEntity.ok(betweenStartAndEnd);
+  }
+
+  @GetMapping("/applications/type")
+  public  ResponseEntity<List<Application>> findByApplicationType(String appType) {
+    List<Application> byAppType = applicationService.findByApplicationType(appType);
+    if (byAppType.isEmpty()) {
+      return ResponseEntity.noContent().build();
+    }
+    return ResponseEntity.ok(byAppType);
+  }
+
+  /*
+  @GetMapping
+  public ResponseEntity<List<Application>> getApplicationsIfIsSingleOrJoint(boolean isSingle) {
+    List<Application> singleApp = applicationService.getApplicationsIfIsSingleOrJoint(isSingle);
+    if (singleApp.isEmpty()) {
+      return ResponseEntity.noContent().build();
+    }
+    return ResponseEntity.ok(singleApp);
+  }
+  */
+
+  @GetMapping("/applications/stage")
+  public ResponseEntity<List<Application>> findByApplicationStage(String appStage){
+    List<Application> stage = applicationService.findByApplicationStage(appStage);
+    if (stage.isEmpty()) {
+      return ResponseEntity.noContent().build();
+    }
+    return ResponseEntity.ok(stage);
+  }
+
+
+  @GetMapping("/applications")
+  public ResponseEntity<List<Application>> findApplicationByApplicationTypeAndApplicationCreatedDateBetweenAndApplicationStageAndApplicationStatus(String applicationType, Date applicationCreatedDate, Application applicationCreatedDate2, String applicationStage, String applicationStatus){
+    List<Application> filterByAll = applicationService.findApplicationByApplicationTypeAndApplicationCreatedDateBetweenAndApplicationStageAndApplicationStatus(applicationType, applicationCreatedDate, applicationCreatedDate2, applicationStage, applicationStatus);
+    if (filterByAll.isEmpty()) {
+      return ResponseEntity.noContent().build();
+    }
+    return ResponseEntity.ok(filterByAll);
+  }
 }
