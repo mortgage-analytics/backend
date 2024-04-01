@@ -45,8 +45,8 @@ public class ApplicationService
   public List<Application> getAllByApplicationType(Application appType){
     return applicationRepository.getAllByApplicationType(appType);
   }
-  public List<Application> getAllApplicationsByStatus(String appStatus){
-    return applicationRepository.getAllApplicationsByStatus(appStatus);
+  public List<Application> getAllApplicationsByApplicationStatus(String appStatus){
+    return applicationRepository.getAllApplicationsByApplicationStatus(appStatus);
   }
   public List<Application> getApplicationsIfIsSingleOrJoint(boolean isSingle){
     return applicationRepository.getApplicationsIfIsSingleOrJoint(isSingle);
@@ -55,9 +55,9 @@ public class ApplicationService
     return applicationRepository.getApplicationsByApplicationStage(appStage);
   }
 
-  public List<Application> getApplicationsByAllFilters(Date startDate, Date endDate, Application appType, String appStatus,
+  public List<Application> getAllApplicationTypeAndApplicationCreatedDateSAndApplicationStatusAndApplicationStageAndIfIsSingleOrJoint(Date startDate, Date endDate, Application appType, String appStatus,
                                                        boolean isSingle, String appStage){
-    return applicationRepository.getApplicationByAllFilters(startDate, endDate, appType, appStatus, isSingle, appStage);
+    return applicationRepository.getAllApplicationTypeAndApplicationCreatedDateSAndApplicationStatusAndApplicationStageAndIfIsSingleOrJoint(startDate, endDate, appType, appStatus, isSingle, appStage);
   }
 
 }

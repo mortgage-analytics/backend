@@ -105,8 +105,8 @@ public class DataController
   }
 
   @GetMapping
-  public ResponseEntity<List<Application>> getAllApplicationsByStatus(String appStatus){
-    List<Application> applicationsStatus = applicationService.getAllApplicationsByStatus(appStatus);
+  public ResponseEntity<List<Application>> getAllApplicationsByApplicationStatus(String appStatus){
+    List<Application> applicationsStatus = applicationService.getAllApplicationsByApplicationStatus(appStatus);
     if (applicationsStatus.isEmpty()) {
       return ResponseEntity.noContent().build();
     }
@@ -132,9 +132,9 @@ public class DataController
   }
 
   @GetMapping
-  public ResponseEntity<List<Application>> getApplicationsByAllFilters(Date startDate, Date endDate, Application appType, String appStatus,
+  public ResponseEntity<List<Application>> getAllApplicationTypeAndApplicationCreatedDateSAndApplicationStatusAndApplicationStageAndIfIsSingleOrJoint(Date startDate, Date endDate, Application appType, String appStatus,
                                                                        boolean isSingle, String appStage){
-    List<Application> filterByAll = applicationService.getApplicationsByAllFilters(startDate, endDate, appType, appStatus, isSingle, appStage);
+    List<Application> filterByAll = applicationService.getAllApplicationTypeAndApplicationCreatedDateSAndApplicationStatusAndApplicationStageAndIfIsSingleOrJoint(startDate, endDate, appType, appStatus, isSingle, appStage);
     if (filterByAll.isEmpty()) {
       return ResponseEntity.noContent().build();
     }
