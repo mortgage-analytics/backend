@@ -17,6 +17,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import org.apache.poi.ss.usermodel.*;
 
+import java.io.FileInputStream;
 import java.util.Date;
 
 @SpringBootApplication
@@ -68,11 +69,11 @@ public class BackendApplication implements ApplicationRunner
 		modelService.test();
 		modelService.getAnalytics();
 //
-//		String userDirectory = System.getProperty("user.dir");
-//		String workingDirectory = userDirectory.endsWith("Backend") ? "." : "Backend";
-//
-//		FileInputStream fileInputStream = new FileInputStream(workingDirectory + "/src/main/resources/combined_report-1707267132094.xlsx");
-//		Workbook workbook = WorkbookFactory.create(fileInputStream);
+		String userDirectory = System.getProperty("user.dir");
+		String workingDirectory = userDirectory.endsWith("Backend") ? "." : "Backend";
+
+		FileInputStream fileInputStream = new FileInputStream(workingDirectory + "/src/main/resources/Copy of cleaned data.xlsx");
+		Workbook workbook = WorkbookFactory.create(fileInputStream);
 //
 //		loadApplications(workbook, applicationRepository);
 //		loadLeads(workbook, leadRepository);
@@ -139,6 +140,8 @@ public class BackendApplication implements ApplicationRunner
 			Row row = sheet.getRow(i);
 
 			Application entry = new Application();
+
+			entry.setApplicationType(getStringOrEmpty(row, 1));
 
 			entry.setApplicationStage(getStringOrEmpty(row, 10));
 			entry.setMortgageAmountProposed(getNumericOrZero(row, 4));
