@@ -196,4 +196,22 @@ public class ApplicationService
 
     this.valueCounts = counts;
   }
+
+  public List<Application> findApplicationByApplicationCreatedDateBetween(Date startDate, Date endDate){
+    return applicationRepository.findApplicationByApplicationCreatedDateBetween(startDate, endDate);
+  }
+  public List<Application> findByApplicationType(String type){
+    return applicationRepository.findByApplicationType(type);
+  }
+
+
+  public List<Application> findByApplicationStage(String appStage){
+    return applicationRepository.findByApplicationStage(appStage);
+  }
+
+
+  public List<Application> findApplicationByApplicationTypeAndApplicationCreatedDateBetweenAndApplicationStageAndApplicationStatus(String applicationType, Date applicationCreatedDate, Application applicationCreatedDate2, String applicationStage, String applicationStatus){
+    return applicationRepository.findApplicationByApplicationTypeAndApplicationCreatedDateBetweenAndApplicationStageAndApplicationStatus(applicationType, applicationCreatedDate, applicationCreatedDate2, applicationStage, applicationStatus);
+  }
+
 }

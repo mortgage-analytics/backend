@@ -10,10 +10,16 @@ import java.util.List;
 @Repository
 public interface ApplicationRepository extends MongoRepository<Application, String>
 {
+
   List<Application> findByApplicationStatusAndCompletionDateIsNotNull(String status);
   List<Application> findByApplicationStatusAndCompletionDateIsNull(String status);
   List<Application> findByApplicationStatus(String status);
   List<Application> findByCompletionDateAfter(Date date);
+  List<Application> findApplicationByApplicationCreatedDateBetween(Date startDate, Date endDate);
+  List<Application> findByApplicationType(String type);
+  List<Application> findByApplicationStage(String appStage);
+
+  List<Application> findApplicationByApplicationTypeAndApplicationCreatedDateBetweenAndApplicationStageAndApplicationStatus(String applicationType, Date applicationCreatedDate, Application applicationCreatedDate2, String applicationStage, String applicationStatus);
 
   List<Application> findAllByApplicationCreatedDateBetween(Date start, Date end);
 
@@ -22,8 +28,6 @@ public interface ApplicationRepository extends MongoRepository<Application, Stri
   int countApplicationsByApplicationStage(String stage);
 
   int countApplicationsByMortgageAmountProposedBetween(double low, double high);
-
-  List<Application> findByApplicationType(String type);
 
   List<Application> findByApplicationTypeAndApplicationStatus(String type, String status);
 }
