@@ -66,6 +66,11 @@ public class ApplicationService
     return applicationRepository.countApplicationsByApplicationStatus(status);
   }
 
+  public int getCountByStage(String stage)
+  {
+    return applicationRepository.countApplicationsByApplicationStage(stage);
+  }
+
 
   public int getCountBetweenValue(double low, double high)
   {

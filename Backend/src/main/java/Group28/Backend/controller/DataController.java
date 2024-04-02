@@ -121,13 +121,13 @@ public class DataController
 
     List<Count> counts = new ArrayList<>();
 
-    counts.add(new Count("CREDIT_SUBMISSION", applicationService.getCountByStatus("CREDIT_SUBMISSION")));
-    counts.add(new Count("LOAN_OFFER", applicationService.getCountByStatus("LOAN_OFFER")));
-    counts.add(new Count("ADVISOR_REVIEW", applicationService.getCountByStatus("ADVISOR_REVIEW")));
-    counts.add(new Count("COMPLETE", applicationService.getCountByStatus("COMPLETE")));
-    counts.add(new Count("INFORMATION_GATHERING", applicationService.getCountByStatus("INFORMATION_GATHERING")));
-    counts.add(new Count("RECOMMENDATION", applicationService.getCountByStatus("RECOMMENDATION")));
-    counts.add(new Count("DRAWDOWN", applicationService.getCountByStatus("DRAWDOWN")));
+    counts.add(new Count("CREDIT_SUBMISSION", applicationService.getCountByStage("CREDIT_SUBMISSION")));
+    counts.add(new Count("LOAN_OFFER", applicationService.getCountByStage("LOAN_OFFER")));
+    counts.add(new Count("ADVISOR_REVIEW", applicationService.getCountByStage("ADVISOR_REVIEW")));
+    counts.add(new Count("COMPLETE", applicationService.getCountByStage("COMPLETE")));
+    counts.add(new Count("INFORMATION_GATHERING", applicationService.getCountByStage("INFORMATION_GATHERING")));
+    counts.add(new Count("RECOMMENDATION", applicationService.getCountByStage("RECOMMENDATION")));
+    counts.add(new Count("DRAWDOWN", applicationService.getCountByStage("DRAWDOWN")));
 
     System.out.println("Going to the return now :D");
     return ResponseEntity.ok(counts);
