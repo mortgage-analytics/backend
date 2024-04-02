@@ -3,12 +3,8 @@ package Group28.Backend;
 import Group28.Backend.Security.AuthEntryPointJwt;
 import Group28.Backend.controller.DataController;
 import Group28.Backend.controller.LoginController;
-import Group28.Backend.domain.Application;
-import Group28.Backend.domain.Lead;
-import Group28.Backend.domain.User;
-import Group28.Backend.repository.ApplicationRepository;
-import Group28.Backend.repository.LeadRepository;
-import Group28.Backend.repository.UserRepository;
+import Group28.Backend.domain.*;
+import Group28.Backend.repository.*;
 import Group28.Backend.service.ApplicationService;
 import Group28.Backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +43,9 @@ public class BackendApplication implements ApplicationRunner
 	@Autowired
 	LeadRepository leadRepository;
 
+	@Autowired
+	ClientRepository clientRepository;
+
 
 	@Autowired
 	AuthEntryPointJwt authEntryPointJwt;
@@ -70,6 +69,55 @@ public class BackendApplication implements ApplicationRunner
 //
 //		loadApplications(workbook, applicationRepository);
 //		loadLeads(workbook, leadRepository);
+	}
+
+	private static void loadClients(Workbook workbook, ClientRepository clientRepository)
+	{
+		Sheet sheet = workbook.getSheetAt(0);
+
+		clientRepository.deleteAll();
+
+		// Skip the zeroth row, it's just titles
+		for(int i = 1; i < 17786; i++)
+		{
+			Row row = sheet.getRow(i);
+
+			Client entry = new Client();
+			entry.setType(getStringOrEmpty(row, 0)); 	                   // Just Application over and over, idk?
+			entry.setSubmittedTo(getStringOrEmpty(row, 15));              // The bank submitted to
+			entry.setPropertyIdentified(getNumericOrZero(row, 3) > 0.0f); // if value is <= 0 no property
+			entry.setMortgageAmount(getNumericOrZero(row, 4));            // Proposed mortgage amount
+
+			entry.setSingleOrJoint(getStringOrEmpty(row, 1));             // Stating if single or joint
+
+			clientRepository.save(entry);
+		}
+	}
+
+	private static void loadTimelines(Workbook workbook, TimelineRepository timelineRepository)
+	{
+		Sheet sheet = workbook.getSheetAt(0);
+
+		timelineRepository.deleteAll();
+
+		// Skip the zeroth row, it's just titles
+		for(int i = 1; i < 17786; i++)
+		{
+			Row row = sheet.getRow(i);
+
+			Timeline entry = new Timeline();
+
+			entry.setLeadCreated(getDateOrNull(row, 6)); // lead created date
+			entry.setApplicationCreated(getDateOrNull(row, 8));
+			entry.setAdvisorReviewCompleted(getDateOrNull(row, 37));
+			entry.setSubmission(getDateOrNull(row, 16)); // aip submission
+			entry.setResponse(getDateOrNull(row, 17)); // aip response
+			entry.setValuationReceived(getDateOrNull(row, 61)); // valuation received
+			entry.setLoanOfferReceived(getDateOrNull(row, 43)); // loan offer completed
+			entry.setCompleted(getDateOrNull(row, 45)); // closing date
+
+			timelineRepository.save(entry);
+		}
 	}
 
 	private static void loadApplications(Workbook workbook, ApplicationRepository applicationRepository)
@@ -177,5 +225,16 @@ public class BackendApplication implements ApplicationRunner
 		}
 
 		return c.getNumericCellValue();
+	}
+
+	private static boolean getBooleanOrFalse(Row row, int i)
+	{
+		Cell c = row.getCell(i);
+		if(c == null)
+		{
+			return false;
+		}
+
+		return c.getBooleanCellValue();
 	}
 }

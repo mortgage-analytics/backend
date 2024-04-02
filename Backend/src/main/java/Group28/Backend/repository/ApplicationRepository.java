@@ -16,4 +16,6 @@ public interface ApplicationRepository extends MongoRepository<Application, Stri
   List<Application> findByCompletionDateAfter(Date date);
 
   List<Application> findAllByApplicationCreatedDateBetween(Date start, Date end);
+
+  List<Application> findAllByApplicationCreatedDateBetweenAndApplicationStatus(Date start, Date end, String status);
 }
