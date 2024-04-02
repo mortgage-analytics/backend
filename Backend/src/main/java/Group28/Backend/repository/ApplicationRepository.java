@@ -19,6 +19,7 @@ public interface ApplicationRepository extends MongoRepository<Application, Stri
 
   int countApplicationsByApplicationType(String type);
   int countApplicationsByApplicationStatus(String status);
+  int countApplicationsByApplicationStage(String stage);
 
   int countApplicationsByMortgageAmountProposedBetween(double low, double high);
 
