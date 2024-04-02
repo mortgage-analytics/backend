@@ -37,5 +37,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
       SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
     }
     chain.doFilter(request, response);
+
+    System.out.println("End of security");
   }
 }

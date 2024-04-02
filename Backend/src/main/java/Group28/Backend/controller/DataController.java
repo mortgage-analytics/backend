@@ -117,6 +117,8 @@ public class DataController
   @GetMapping("graphs/byStage")
   public ResponseEntity<List<Count>> getCountsByStage()
   {
+    System.out.println("Passed security, going to try");
+
     List<Count> counts = new ArrayList<>();
 
     counts.add(new Count("CREDIT_SUBMISSION", applicationService.getCountByStatus("CREDIT_SUBMISSION")));
@@ -127,6 +129,7 @@ public class DataController
     counts.add(new Count("RECOMMENDATION", applicationService.getCountByStatus("RECOMMENDATION")));
     counts.add(new Count("DRAWDOWN", applicationService.getCountByStatus("DRAWDOWN")));
 
+    System.out.println("Going to the return now :D");
     return ResponseEntity.ok(counts);
   }
 
