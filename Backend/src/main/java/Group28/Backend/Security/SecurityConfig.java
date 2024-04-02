@@ -47,6 +47,7 @@ public class SecurityConfig {
     config.setAllowedHeaders(Arrays.asList("Origin", "Content-Type", "Accept"));
     config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "OPTIONS", "DELETE", "PATCH"));
     config.setAllowCredentials(true);
+    config.setAllowedHeaders(Arrays.asList("*"));
     source.registerCorsConfiguration("/**", config);
     return new CorsFilter(source);
   }

@@ -3,17 +3,16 @@ package Group28.Backend.controller;
 import Group28.Backend.domain.Application;
 import Group28.Backend.domain.Lead;
 import Group28.Backend.domain.MonthlyCount;
+import Group28.Backend.domain.Count;
 import Group28.Backend.service.ApplicationService;
 import Group28.Backend.service.LeadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.time.LocalDate;
 import java.util.*;
 
 @Controller
@@ -95,53 +94,46 @@ public class DataController
   @GetMapping("/graphs/byMonth")
   public ResponseEntity<List<MonthlyCount>> getCountsByMonth()
   {
-    List<MonthlyCount> counts = new ArrayList<>();
-
-    // Start and end dates are arbitrary, they just need to encompass all dates
-    Calendar current = Calendar.getInstance();
-    current.set(2000, Calendar.JANUARY, 1);
-
-    Calendar end = Calendar.getInstance();
-    end.set(2025, Calendar.JANUARY, 1);
-
-    // Only get data that is relevant. No need to include any before our first recorded applications
-    boolean firstFound = false;
-    while (current.before(end))
-    {
-      Calendar next = Calendar.getInstance();
-      next.setTime(current.getTime());
-      next.add(Calendar.MONTH, 1);
-
-      int applications = applicationService.getBetween(current.getTime(), next.getTime()).size();
-      int leads = leadService.getBetween(current.getTime(), next.getTime()).size();
-
-      if(firstFound || applications > 0 || leads > 0)
-      {
-        String name = current.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH) + " " + current.get(Calendar.YEAR);
-        counts.add(new MonthlyCount(name, leads, applications));
-
-        firstFound = true;
-      }
-
-      current = next;
-    }
-
-    // Trim the end off. No need to include any after our last recorded applications.
-    for(int i = counts.size() - 1; i >= 0; i--)
-    {
-      if(counts.get(i).getApplications() <= 0 || counts.get(i).getLeads() <= 0)
-      {
-        counts.remove(i);
-      }
-    }
-
-    return ResponseEntity.ok(counts);
+    return ResponseEntity.ok(applicationService.getMonthlyCounts());
   }
 
   @GetMapping("/count/{type}")
   public ResponseEntity<Integer> getCountPerType(@PathVariable String type)
   {
     return ResponseEntity.ok(applicationService.getCountByType(type));
+  }
+
+  @GetMapping("graphs/byType")
+  public ResponseEntity<List<Count>> getCountsByType()
+  {
+    List<Count> counts = new ArrayList<>();
+
+    counts.add(new Count("Single", applicationService.getCountByType("Single")));
+    counts.add(new Count("Joint", applicationService.getCountByType("Joint")));
+
+    return ResponseEntity.ok(counts);
+  }
+
+  @GetMapping("graphs/byStage")
+  public ResponseEntity<List<Count>> getCountsByStage()
+  {
+    List<Count> counts = new ArrayList<>();
+
+    counts.add(new Count("CREDIT_SUBMISSION", applicationService.getCountByStatus("CREDIT_SUBMISSION")));
+    counts.add(new Count("LOAN_OFFER", applicationService.getCountByStatus("LOAN_OFFER")));
+    counts.add(new Count("ADVISOR_REVIEW", applicationService.getCountByStatus("ADVISOR_REVIEW")));
+    counts.add(new Count("COMPLETE", applicationService.getCountByStatus("COMPLETE")));
+    counts.add(new Count("INFORMATION_GATHERING", applicationService.getCountByStatus("INFORMATION_GATHERING")));
+    counts.add(new Count("RECOMMENDATION", applicationService.getCountByStatus("RECOMMENDATION")));
+    counts.add(new Count("DRAWDOWN", applicationService.getCountByStatus("DRAWDOWN")));
+
+    return ResponseEntity.ok(counts);
+  }
+
+  @GetMapping("/graphs/byMortgageAmount")
+  public ResponseEntity<List<Count>> getMortgageAmountsByAmount()
+  {
+    return ResponseEntity.ok(applicationService.getValueCounts());
   }
 
   @GetMapping("/valueByType/{type}")
