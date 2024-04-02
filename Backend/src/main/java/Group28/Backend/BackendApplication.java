@@ -6,6 +6,7 @@ import Group28.Backend.controller.LoginController;
 import Group28.Backend.domain.*;
 import Group28.Backend.repository.*;
 import Group28.Backend.service.ApplicationService;
+import Group28.Backend.service.ModelService;
 import Group28.Backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -50,6 +51,9 @@ public class BackendApplication implements ApplicationRunner
 	@Autowired
 	AuthEntryPointJwt authEntryPointJwt;
 
+	@Autowired
+	ModelService modelService;
+
 	public static void main(String[] args)
 	{
 		SpringApplication.run(BackendApplication.class, args);
@@ -60,6 +64,9 @@ public class BackendApplication implements ApplicationRunner
 	{
 		// Add users
 		userRepository.save(new User("byrnel58@tcd.ie", "Test12345_"));
+
+		modelService.test();
+		modelService.getAnalytics();
 //
 //		String userDirectory = System.getProperty("user.dir");
 //		String workingDirectory = userDirectory.endsWith("Backend") ? "." : "Backend";
@@ -132,34 +139,39 @@ public class BackendApplication implements ApplicationRunner
 			Row row = sheet.getRow(i);
 
 			Application entry = new Application();
-//			entry.setLastUpdatedDate(getDateOrNull(row, 0));
-
-//			entry.setPrimaryLastLoggedOn(getDateOrNull(row, 5)); // Not in new data
-//			entry.setApplicationType(getStringOrEmpty(row, 6)); // Not in new data (first time buyer and such not logged
 
 			entry.setApplicationStage(getStringOrEmpty(row, 10));
-//			entry.setPropertyIdentified(getStringOrEmpty(row, 9).equals("Yes")); // Not in data
 			entry.setMortgageAmountProposed(getNumericOrZero(row, 4));
 			entry.setLeadCreatedDate(getDateOrNull(row, 6));
 			entry.setApplicationCreatedDate(getDateOrNull(row, 8));
-//			entry.setAdvisorReviewCompleteDate(getDateOrNull(row, 13));
-//			entry.setSubmissionDate(getDateOrNull(row, 14));
-//			entry.setResponseDate(getDateOrNull(row, 15));
-//			entry.setValuationReceivedDate(getDateOrNull(row, 16));
-//			entry.setLoanOfferReceived(getDateOrNull(row, 17));
-//			entry.setCompletionDate(getDateOrNull(row, 18));
-//			entry.setEstimatedClosingDate(getDateOrNull(row, 19));
-//			entry.setLeadSourceDetails(getStringOrEmpty(row, 20));
-//			entry.setApplicationStatus(getStringOrEmpty(row, 21));
-//			entry.setSubmittedTo(getStringOrEmpty(row, 22));
-//
-//			entry.setSecondaryLastLoggedOn(getDateOrNull(row, 26));
-//			entry.setLeadSource(getStringOrEmpty(row, 27));
-//
-//			entry.setNextActionDetails(getStringOrEmpty(row, 29));
-//
+			entry.setAdvisorReviewCompleteDate(getDateOrNull(row, 37));
+			entry.setSubmissionDate(getDateOrNull(row, 16));
+			entry.setResponseDate(getDateOrNull(row, 17));
+			entry.setValuationReceivedDate(getDateOrNull(row, 61));
+			entry.setLoanOfferReceived(getDateOrNull(row, 43));
+			entry.setCompletionDate(getDateOrNull(row, 45));
+			entry.setEstimatedClosingDate(getDateOrNull(row, 44));
+			entry.setApplicationStatus(getStringOrEmpty(row, 11));
+			entry.setSubmittedTo(getStringOrEmpty(row, 15)); // aip lender submitted to
 			entry.setSingle(getStringOrEmpty(row, 1).equals("Single"));
-//			entry.setNextAction(getStringOrEmpty(row, 32));
+
+			entry.setMortgageType(getStringOrEmpty(row, 2));
+			entry.setPropertyValue(getNumericOrZero(row, 3));
+			entry.setDocumentsUploaded((int) getNumericOrZero(row, 13));
+
+			double summedIncome = 0;
+
+			summedIncome += getNumericOrZero(row, 73);
+			summedIncome += getNumericOrZero(row, 74);
+			summedIncome += getNumericOrZero(row, 75);
+			summedIncome += getNumericOrZero(row, 76);
+			summedIncome += getNumericOrZero(row, 77);
+			summedIncome += getNumericOrZero(row, 78);
+			summedIncome += getNumericOrZero(row, 79);
+			summedIncome += getNumericOrZero(row, 80);
+			summedIncome += getNumericOrZero(row, 81);
+
+			entry.setSummedIncome(summedIncome);
 
 			applicationRepository.save(entry);
 		}
