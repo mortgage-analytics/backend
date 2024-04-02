@@ -3,17 +3,16 @@ package Group28.Backend.controller;
 import Group28.Backend.domain.Application;
 import Group28.Backend.domain.Lead;
 import Group28.Backend.domain.MonthlyCount;
+import Group28.Backend.domain.Count;
 import Group28.Backend.service.ApplicationService;
 import Group28.Backend.service.LeadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.time.LocalDate;
 import java.util.*;
 
 @Controller
@@ -95,13 +94,46 @@ public class DataController
   @GetMapping("/graphs/byMonth")
   public ResponseEntity<List<MonthlyCount>> getCountsByMonth()
   {
-    return ResponseEntity.ok(applicationService.getCounts());
+    return ResponseEntity.ok(applicationService.getMonthlyCounts());
   }
 
   @GetMapping("/count/{type}")
   public ResponseEntity<Integer> getCountPerType(@PathVariable String type)
   {
     return ResponseEntity.ok(applicationService.getCountByType(type));
+  }
+
+  @GetMapping("graphs/byType")
+  public ResponseEntity<List<Count>> getCountsByType()
+  {
+    List<Count> counts = new ArrayList<>();
+
+    counts.add(new Count("Single", applicationService.getCountByType("Single")));
+    counts.add(new Count("Joint", applicationService.getCountByType("Joint")));
+
+    return ResponseEntity.ok(counts);
+  }
+
+  @GetMapping("graphs/byStage")
+  public ResponseEntity<List<Count>> getCountsByStage()
+  {
+    List<Count> counts = new ArrayList<>();
+
+    counts.add(new Count("CREDIT_SUBMISSION", applicationService.getCountByStatus("CREDIT_SUBMISSION")));
+    counts.add(new Count("LOAN_OFFER", applicationService.getCountByStatus("LOAN_OFFER")));
+    counts.add(new Count("ADVISOR_REVIEW", applicationService.getCountByStatus("ADVISOR_REVIEW")));
+    counts.add(new Count("COMPLETE", applicationService.getCountByStatus("COMPLETE")));
+    counts.add(new Count("INFORMATION_GATHERING", applicationService.getCountByStatus("INFORMATION_GATHERING")));
+    counts.add(new Count("RECOMMENDATION", applicationService.getCountByStatus("RECOMMENDATION")));
+    counts.add(new Count("DRAWDOWN", applicationService.getCountByStatus("DRAWDOWN")));
+
+    return ResponseEntity.ok(counts);
+  }
+
+  @GetMapping("/graphs/byMortgageAmount")
+  public ResponseEntity<List<Count>> getMortgageAmountsByAmount()
+  {
+    return ResponseEntity.ok(applicationService.getValueCounts());
   }
 
   @GetMapping("/valueByType/{type}")
