@@ -1,6 +1,7 @@
 package Group28.Backend.service;
 
 import Group28.Backend.domain.Application;
+import Group28.Backend.domain.Count;
 import Group28.Backend.domain.MonthlyCount;
 import Group28.Backend.repository.ApplicationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +17,8 @@ public class ApplicationService
   @Autowired
   ApplicationRepository applicationRepository;
 
-  private
-  List<MonthlyCount> counts = new ArrayList<>();
+  private List<MonthlyCount> monthlyCounts = new ArrayList<>();
+  private List<Count> valueCounts = new ArrayList<>();
 
   public ApplicationService(ApplicationRepository applicationRepository)
   {
@@ -60,6 +61,16 @@ public class ApplicationService
   {
     return applicationRepository.countApplicationsByApplicationType(type);
   }
+  public int getCountByStatus(String status)
+  {
+    return applicationRepository.countApplicationsByApplicationStatus(status);
+  }
+
+
+  public int getCountBetweenValue(double low, double high)
+  {
+    return applicationRepository.countApplicationsByMortgageAmountProposedBetween(low, high);
+  }
 
   public double getValuePerType(String type)
   {
@@ -100,14 +111,25 @@ public class ApplicationService
     return total;
   }
 
-  public List<MonthlyCount> getCounts()
+  public List<MonthlyCount> getMonthlyCounts()
   {
-    return counts;
+    return monthlyCounts;
   }
 
-  // Once per minute
-  @Scheduled(fixedRate = 1000 * 60)
+  public List<Count> getValueCounts()
+  {
+    return valueCounts;
+  }
+
+  // Once per 10 minutes
+  @Scheduled(fixedRate = 1000 * 60 * 10)
   private void updateCounts()
+  {
+    updateMonthlyCounts();
+    updateAmountCounts();
+  }
+
+  private void updateMonthlyCounts()
   {
     List<MonthlyCount> counts = new ArrayList<>();
 
@@ -149,6 +171,24 @@ public class ApplicationService
       }
     }
 
-    this.counts = counts;
+    this.monthlyCounts = counts;
+  }
+
+  private void updateAmountCounts()
+  {
+    List<Count> counts = new ArrayList<>();
+
+    counts.add(new Count("> 100,000", getCountBetweenValue(0.0, 100000.0)));
+    counts.add(new Count("100,000 -> 150,000", getCountBetweenValue(0.0, 100000.0)));
+    counts.add(new Count("150,000 -> 200,000", getCountBetweenValue(0.0, 100000.0)));
+    counts.add(new Count("200,000 -> 250,000", getCountBetweenValue(0.0, 100000.0)));
+    counts.add(new Count("250,000 -> 300,000", getCountBetweenValue(0.0, 100000.0)));
+    counts.add(new Count("300,000 -> 350,000", getCountBetweenValue(0.0, 100000.0)));
+    counts.add(new Count("350,000 -> 400,000", getCountBetweenValue(0.0, 100000.0)));
+    counts.add(new Count("400,000 -> 450,000", getCountBetweenValue(0.0, 100000.0)));
+    counts.add(new Count("450,000 -> 500,000", getCountBetweenValue(0.0, 100000.0)));
+    counts.add(new Count("500,000 >", getCountBetweenValue(0.0, 100000.0)));
+
+    this.valueCounts = counts;
   }
 }
