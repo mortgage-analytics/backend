@@ -1,11 +1,15 @@
 package Group28.Backend.controller;
 
 import Group28.Backend.domain.Application;
+import Group28.Backend.domain.Client;
 import Group28.Backend.domain.Lead;
+import Group28.Backend.domain.Timeline;
 import Group28.Backend.domain.MonthlyCount;
 import Group28.Backend.domain.Count;
 import Group28.Backend.service.ApplicationService;
+import Group28.Backend.service.ClientService;
 import Group28.Backend.service.LeadService;
+import Group28.Backend.service.TimelineService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -21,9 +25,12 @@ public class DataController
 {
   @Autowired
   ApplicationService applicationService;
-
   @Autowired
   LeadService leadService;
+  @Autowired
+  ClientService clientService;
+  @Autowired
+  TimelineService timelineService;
 
   @GetMapping("/hi")
   public ResponseEntity<String> hi()
@@ -90,6 +97,71 @@ public class DataController
     return ResponseEntity.ok(leadService.getAll());
   }
 
+  @GetMapping("/applications/between/date")
+  public  ResponseEntity<List<Application>> findApplicationByApplicationCreatedDateBetween(Date start, Date end) {
+    List<Application> betweenStartAndEnd = applicationService.findApplicationByApplicationCreatedDateBetween(start, end);
+    if (betweenStartAndEnd.isEmpty()) {
+      return ResponseEntity.noContent().build();
+    }
+    return ResponseEntity.ok(betweenStartAndEnd);
+  }
+
+  @GetMapping("/applications/type")
+  public  ResponseEntity<List<Application>> findByApplicationType(String appType) {
+    List<Application> byAppType = applicationService.findByApplicationType(appType);
+    if (byAppType.isEmpty()) {
+      return ResponseEntity.noContent().build();
+    }
+    return ResponseEntity.ok(byAppType);
+  }
+
+  /*
+  @GetMapping
+  public ResponseEntity<List<Application>> getApplicationsIfIsSingleOrJoint(boolean isSingle) {
+    List<Application> singleApp = applicationService.getApplicationsIfIsSingleOrJoint(isSingle);
+    if (singleApp.isEmpty()) {
+      return ResponseEntity.noContent().build();
+    }
+    return ResponseEntity.ok(singleApp);
+  }
+  */
+
+  @GetMapping("/applications/stage")
+  public ResponseEntity<List<Application>> findByApplicationStage(String appStage){
+    List<Application> stage = applicationService.findByApplicationStage(appStage);
+    if (stage.isEmpty()) {
+      return ResponseEntity.noContent().build();
+    }
+    return ResponseEntity.ok(stage);
+  }
+
+
+  @GetMapping("/applications")
+  public ResponseEntity<List<Application>> findApplicationByApplicationTypeAndApplicationCreatedDateBetweenAndApplicationStageAndApplicationStatus(String applicationType, Date applicationCreatedDate, Application applicationCreatedDate2, String applicationStage, String applicationStatus){
+    List<Application> filterByAll = applicationService.findApplicationByApplicationTypeAndApplicationCreatedDateBetweenAndApplicationStageAndApplicationStatus(applicationType, applicationCreatedDate, applicationCreatedDate2, applicationStage, applicationStatus);
+    if (filterByAll.isEmpty()) {
+      return ResponseEntity.noContent().build();
+    }
+    return ResponseEntity.ok(filterByAll);
+  }
+  @GetMapping("/clients/all")
+  public ResponseEntity<List<Client>> getAllClients() {
+    List<Client> clients = clientService.getAll();
+    if (clients.isEmpty()) {
+      return ResponseEntity.noContent().build();
+    }
+    return ResponseEntity.ok(clients);
+  }
+
+  @GetMapping("/timeline/all")
+  public ResponseEntity<List<Timeline>> getAllTimelines() {
+    List<Timeline> timelines = timelineService.getAll();
+    if (timelines.isEmpty()) {
+      return ResponseEntity.noContent().build();
+    }
+    return ResponseEntity.ok(timelines);
+  }
+
 
   @GetMapping("/graphs/byMonth")
   public ResponseEntity<List<MonthlyCount>> getCountsByMonth()
@@ -117,16 +189,19 @@ public class DataController
   @GetMapping("graphs/byStage")
   public ResponseEntity<List<Count>> getCountsByStage()
   {
+    System.out.println("Passed security, going to try");
+
     List<Count> counts = new ArrayList<>();
 
-    counts.add(new Count("CREDIT_SUBMISSION", applicationService.getCountByStatus("CREDIT_SUBMISSION")));
-    counts.add(new Count("LOAN_OFFER", applicationService.getCountByStatus("LOAN_OFFER")));
-    counts.add(new Count("ADVISOR_REVIEW", applicationService.getCountByStatus("ADVISOR_REVIEW")));
-    counts.add(new Count("COMPLETE", applicationService.getCountByStatus("COMPLETE")));
-    counts.add(new Count("INFORMATION_GATHERING", applicationService.getCountByStatus("INFORMATION_GATHERING")));
-    counts.add(new Count("RECOMMENDATION", applicationService.getCountByStatus("RECOMMENDATION")));
-    counts.add(new Count("DRAWDOWN", applicationService.getCountByStatus("DRAWDOWN")));
+    counts.add(new Count("CREDIT_SUBMISSION", applicationService.getCountByStage("CREDIT_SUBMISSION")));
+    counts.add(new Count("LOAN_OFFER", applicationService.getCountByStage("LOAN_OFFER")));
+    counts.add(new Count("ADVISOR_REVIEW", applicationService.getCountByStage("ADVISOR_REVIEW")));
+    counts.add(new Count("COMPLETE", applicationService.getCountByStage("COMPLETE")));
+    counts.add(new Count("INFORMATION_GATHERING", applicationService.getCountByStage("INFORMATION_GATHERING")));
+    counts.add(new Count("RECOMMENDATION", applicationService.getCountByStage("RECOMMENDATION")));
+    counts.add(new Count("DRAWDOWN", applicationService.getCountByStage("DRAWDOWN")));
 
+    System.out.println("Going to the return now :D");
     return ResponseEntity.ok(counts);
   }
 

@@ -66,6 +66,11 @@ public class ApplicationService
     return applicationRepository.countApplicationsByApplicationStatus(status);
   }
 
+  public int getCountByStage(String stage)
+  {
+    return applicationRepository.countApplicationsByApplicationStage(stage);
+  }
+
 
   public int getCountBetweenValue(double low, double high)
   {
@@ -179,16 +184,34 @@ public class ApplicationService
     List<Count> counts = new ArrayList<>();
 
     counts.add(new Count("> 100,000", getCountBetweenValue(0.0, 100000.0)));
-    counts.add(new Count("100,000 -> 150,000", getCountBetweenValue(0.0, 100000.0)));
-    counts.add(new Count("150,000 -> 200,000", getCountBetweenValue(0.0, 100000.0)));
-    counts.add(new Count("200,000 -> 250,000", getCountBetweenValue(0.0, 100000.0)));
-    counts.add(new Count("250,000 -> 300,000", getCountBetweenValue(0.0, 100000.0)));
-    counts.add(new Count("300,000 -> 350,000", getCountBetweenValue(0.0, 100000.0)));
-    counts.add(new Count("350,000 -> 400,000", getCountBetweenValue(0.0, 100000.0)));
-    counts.add(new Count("400,000 -> 450,000", getCountBetweenValue(0.0, 100000.0)));
-    counts.add(new Count("450,000 -> 500,000", getCountBetweenValue(0.0, 100000.0)));
-    counts.add(new Count("500,000 >", getCountBetweenValue(0.0, 100000.0)));
+    counts.add(new Count("100,000 -> 150,000", getCountBetweenValue(100000.0, 150000.0)));
+    counts.add(new Count("150,000 -> 200,000", getCountBetweenValue(150000.0, 200000.0)));
+    counts.add(new Count("200,000 -> 250,000", getCountBetweenValue(200000.0, 250000.0)));
+    counts.add(new Count("250,000 -> 300,000", getCountBetweenValue(250000.0, 300000.0)));
+    counts.add(new Count("300,000 -> 350,000", getCountBetweenValue(300000.0, 350000.0)));
+    counts.add(new Count("350,000 -> 400,000", getCountBetweenValue(350000.0, 400000.0)));
+    counts.add(new Count("400,000 -> 450,000", getCountBetweenValue(400000.0, 450000.0)));
+    counts.add(new Count("450,000 -> 500,000", getCountBetweenValue(450000.0, 500000.0)));
+    counts.add(new Count("500,000 >", getCountBetweenValue(500000.0, Float.MAX_VALUE)));
 
     this.valueCounts = counts;
   }
+
+  public List<Application> findApplicationByApplicationCreatedDateBetween(Date startDate, Date endDate){
+    return applicationRepository.findApplicationByApplicationCreatedDateBetween(startDate, endDate);
+  }
+  public List<Application> findByApplicationType(String type){
+    return applicationRepository.findByApplicationType(type);
+  }
+
+
+  public List<Application> findByApplicationStage(String appStage){
+    return applicationRepository.findByApplicationStage(appStage);
+  }
+
+
+  public List<Application> findApplicationByApplicationTypeAndApplicationCreatedDateBetweenAndApplicationStageAndApplicationStatus(String applicationType, Date applicationCreatedDate, Application applicationCreatedDate2, String applicationStage, String applicationStatus){
+    return applicationRepository.findApplicationByApplicationTypeAndApplicationCreatedDateBetweenAndApplicationStageAndApplicationStatus(applicationType, applicationCreatedDate, applicationCreatedDate2, applicationStage, applicationStatus);
+  }
+
 }
