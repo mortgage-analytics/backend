@@ -35,6 +35,40 @@ public class Application
     private boolean single; // true for single, false for joint
     private String nextAction;
 
+    // For probability requests
+    private String mortgageType;
+    private double propertyValue;
+    private int documentsUploaded;
+    private double summedIncome;
+
+    public ProbabilityRequest makeRequest()
+    {
+        ProbabilityRequest request = new ProbabilityRequest();
+
+        if(single)
+        {
+            request.setApplication_type("0");
+        } else
+        {
+            request.setApplication_type("1");
+        }
+
+        if(mortgageType.equals("Purchasing a New Home"))
+        {
+            request.setMortgage_type("0");
+        } else
+        {
+            request.setMortgage_type("1");
+        }
+
+        request.setProperty_value(propertyValue);
+        request.setMortgage_amount_proposed(mortgageAmountProposed);
+        request.setDocuments_uploaded(documentsUploaded);
+        request.setSummed_income(summedIncome);
+
+        return request;
+    }
+
     public Date getLastUpdatedDate()
     {
         return lastUpdatedDate;
@@ -263,5 +297,45 @@ public class Application
     public void setNextAction(String nextAction)
     {
         this.nextAction = nextAction;
+    }
+
+    public String getMortgageType()
+    {
+        return mortgageType;
+    }
+
+    public void setMortgageType(String mortgageType)
+    {
+        this.mortgageType = mortgageType;
+    }
+
+    public double getPropertyValue()
+    {
+        return propertyValue;
+    }
+
+    public void setPropertyValue(double propertyValue)
+    {
+        this.propertyValue = propertyValue;
+    }
+
+    public int getDocumentsUploaded()
+    {
+        return documentsUploaded;
+    }
+
+    public void setDocumentsUploaded(int documentsUploaded)
+    {
+        this.documentsUploaded = documentsUploaded;
+    }
+
+    public void setSummedIncome(double summedIncome)
+    {
+        this.summedIncome = summedIncome;
+    }
+
+    public double getSummedIncome()
+    {
+        return summedIncome;
     }
 }

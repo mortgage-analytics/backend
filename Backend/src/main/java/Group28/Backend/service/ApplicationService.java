@@ -210,7 +210,7 @@ public class ApplicationService
   }
 
 
-  public List<Application> findApplicationByApplicationTypeAndApplicationCreatedDateBetweenAndApplicationStageAndApplicationStatus(String applicationType, Date applicationCreatedDate, Application applicationCreatedDate2, String applicationStage, String applicationStatus){
+  public List<Application> findApplicationByApplicationTypeAndApplicationCreatedDateBetweenAndApplicationStageAndApplicationStatus(String applicationType, Date applicationCreatedDate, Date applicationCreatedDate2, String applicationStage, String applicationStatus){
     return applicationRepository.findApplicationByApplicationTypeAndApplicationCreatedDateBetweenAndApplicationStageAndApplicationStatus(applicationType, applicationCreatedDate, applicationCreatedDate2, applicationStage, applicationStatus);
   }
 

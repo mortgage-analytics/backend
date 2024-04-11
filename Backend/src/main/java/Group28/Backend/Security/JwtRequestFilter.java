@@ -31,6 +31,9 @@ public class JwtRequestFilter extends OncePerRequestFilter {
       jwt = authHeader.substring(7);
     }
 
+    System.out.println(jwt);
+    System.out.println(authHeader);
+
     if (jwt != null && jwtUtil.validateToken(jwt)) {
       UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
               new UsernamePasswordAuthenticationToken("username", null, null);

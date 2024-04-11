@@ -6,6 +6,7 @@ import Group28.Backend.domain.Lead;
 import Group28.Backend.domain.Timeline;
 import Group28.Backend.domain.MonthlyCount;
 import Group28.Backend.domain.Count;
+import Group28.Backend.dto.ApplicationFilter;
 import Group28.Backend.service.ApplicationService;
 import Group28.Backend.service.ClientService;
 import Group28.Backend.service.LeadService;
@@ -15,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.*;
@@ -136,9 +138,9 @@ public class DataController
   }
 
 
-  @GetMapping("/applications")
-  public ResponseEntity<List<Application>> findApplicationByApplicationTypeAndApplicationCreatedDateBetweenAndApplicationStageAndApplicationStatus(String applicationType, Date applicationCreatedDate, Application applicationCreatedDate2, String applicationStage, String applicationStatus){
-    List<Application> filterByAll = applicationService.findApplicationByApplicationTypeAndApplicationCreatedDateBetweenAndApplicationStageAndApplicationStatus(applicationType, applicationCreatedDate, applicationCreatedDate2, applicationStage, applicationStatus);
+  @PostMapping("/applications/filter")
+  public ResponseEntity<List<Application>> findApplicationByApplicationTypeAndApplicationCreatedDateBetweenAndApplicationStageAndApplicationStatus(ApplicationFilter filter){
+    List<Application> filterByAll = applicationService.findApplicationByApplicationTypeAndApplicationCreatedDateBetweenAndApplicationStageAndApplicationStatus(filter.getAppType(), filter.getStartDate(), filter.getEndDate(), filter.getAppStage(), filter.getAppStatus());
     if (filterByAll.isEmpty()) {
       return ResponseEntity.noContent().build();
     }

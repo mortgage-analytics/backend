@@ -18,18 +18,18 @@ public class ApplicationFilter {
     private Date startDate;
     private Date endDate;
     private boolean isSingle;
-    private Application appType;
+    private String appType;
     private String appStage;
     private String appStatus;
 
-    public ApplicationFilter(Date startDate, Date endDate, boolean isSingle, Application appType, String appStage, String appStatus) {
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.isSingle = isSingle;
-        this.appType = appType;
-        this.appStage = appStage;
-        this.appStatus = appStatus;
-    }
+//    public ApplicationFilter(Date startDate, Date endDate, boolean isSingle, Application appType, String appStage, String appStatus) {
+//        this.startDate = startDate;
+//        this.endDate = endDate;
+//        this.isSingle = isSingle;
+//        this.appType = appType;
+//        this.appStage = appStage;
+//        this.appStatus = appStatus;
+//    }
 
     public String getAppStage() {
         return appStage;
@@ -39,7 +39,7 @@ public class ApplicationFilter {
         return appStatus;
     }
 
-    public Application getAppType() {
+    public String getAppType() {
         return appType;
     }
 
@@ -62,7 +62,7 @@ public class ApplicationFilter {
         this.appStatus = appStatus;
     }
 
-    public void setAppType(Application appType) {
+    public void setAppType(String appType) {
         this.appType = appType;
     }
 
