@@ -20,4 +20,14 @@ public interface ApplicationRepository extends MongoRepository<Application, Stri
   List<Application> findByApplicationStage(String appStage);
 
   List<Application> findApplicationByApplicationTypeAndApplicationCreatedDateBetweenAndApplicationStageAndApplicationStatus(String applicationType, Date applicationCreatedDate, Application applicationCreatedDate2, String applicationStage, String applicationStatus);
+
+  List<Application> findAllByApplicationCreatedDateBetween(Date start, Date end);
+
+  int countApplicationsByApplicationType(String type);
+  int countApplicationsByApplicationStatus(String status);
+  int countApplicationsByApplicationStage(String stage);
+
+  int countApplicationsByMortgageAmountProposedBetween(double low, double high);
+
+  List<Application> findByApplicationTypeAndApplicationStatus(String type, String status);
 }

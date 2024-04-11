@@ -2,13 +2,13 @@ package Group28.Backend.controller;
 
 import Group28.Backend.Payload.SigninRequest;
 import Group28.Backend.Payload.SignupRequest;
+import Group28.Backend.Security.JwtUtil;
 import Group28.Backend.domain.User;
 import Group28.Backend.service.UserService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,13 +18,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 
-@CrossOrigin(origins = "*", maxAge = 3600)
 @Controller
 @RequestMapping("/api/auth")
 public class LoginController
 {
+  private record jwtResponse(String authToken){}
+
   @Autowired
   UserService userService;
+
+  @Autowired
+  JwtUtil jwtUtil;
 
   // The ? means you can return anything inside the response object, any class
   @PostMapping("/signin")
@@ -37,15 +41,20 @@ public class LoginController
 
     if (isAuthorized)
     {
-      Cookie cookie = new Cookie("user_info", email + ":" + "ROLE_USER");
-      HttpHeaders headers = new HttpHeaders();
-      headers.add(HttpHeaders.SET_COOKIE, cookie.toString());
-      return new ResponseEntity<>("Cookie set successfully!", headers, HttpStatus.OK);
+      String jwt = jwtUtil.generateToken(email);
+      jwtResponse response = new jwtResponse(jwt);
+      return ResponseEntity.ok(response);
+
+//      Cookie cookie = new Cookie("user_info", email + ":" + "ROLE_USER");
+//      HttpHeaders headers = new HttpHeaders();
+//      headers.add(HttpHeaders.SET_COOKIE, cookie.toString());
+//      return new ResponseEntity<>("Cookie set successfully!", headers, HttpStatus.OK);
     } else
     {
       return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
   }
+
   @PostMapping("/signup")
   public ResponseEntity<?> signup(@RequestBody SignupRequest signupAttempt)
   {
@@ -105,7 +114,7 @@ public class LoginController
     logoutHandler.logout(request, response, SecurityContextHolder.getContext().getAuthentication());
 
     // Clear the authentication cookie
-    Cookie cookie = new Cookie("user_info", null);
+    Cookie cookie = new Cookie("AuthToken", null);
     cookie.setMaxAge(0); // Set the cookie's max age to 0, effectively deleting it
     cookie.setPath("/"); // Set the cookie path to ensure it's cleared across the entire application
     response.addCookie(cookie);
